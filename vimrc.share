@@ -9,11 +9,11 @@ nnoremap <C-H> <C-W><C-H>
 "nmap <C-k> <C-w>k
 "nmap <C-l> <C-w>l
 
-syntax on
-
 " spell checking
 autocmd BufRead,BufNewFile *.md setlocal spell spelllang=en_us
 autocmd BufRead,BufNewFile *.tex setlocal spell spelllang=en_us
+
+let $max_print_line=1024
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -38,35 +38,10 @@ au BufNewFile,BufRead *.js, *.html, *.css
 " Flagging Unnecessary Whitespace
 "au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
-" UTF8 support
-set encoding=utf-8
-
-"turn on numbering
-set nu
-set ruler
-
 " OPTIONAL: This enables automatic indentation as you type.
 filetype indent on
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" code folding
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Enable folding
-set foldmethod=indent
-set foldlevel=99
-
-" Enable folding with the spacebar
-nnoremap <space> za
-
-" See the docstrings for folded code.
-let g:SimpylFold_docstring_preview=1
-
-if has("autocmd")
-  au BufNewFile,BufRead *.nml set filetype=fortran
-  au BufNewFile,BufRead *.namelist set filetype=fortran
-endif
-
+" ignores the case. set noic to disable
 set ic
 
 if &diff
@@ -96,13 +71,13 @@ syntax on
 set nocompatible
 
 " No backup files
-set nobackup
+"set nobackup
 
 " No write backup
 set nowritebackup
 
 " No swap file
-set noswapfile
+"set noswapfile
 
 " Command history
 set history=100
@@ -175,7 +150,7 @@ set splitright
 set cursorline
 
 " Ensure Vim doesn't beep at you every time you make a mistype
-set visualbell
+"set visualbell
 
 " Visual autocomplete for command menu (e.g. :e ~/path/to/file)
 set wildmenu
