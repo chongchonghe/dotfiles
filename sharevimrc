@@ -3,14 +3,18 @@ set splitbelow
 set splitright
 
 ""split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
 "nnoremap <C-J> <C-W>j
 "nnoremap <C-K> <C-W>k
 "nnoremap <C-H> <C-W>h
 "nnoremap <C-L> <C-W>l
-nmap <C-h> <C-w>h
-nmap <C-j> <C-w>j
-nmap <C-k> <C-w>k
-nmap <C-l> <C-w>l
+"nmap <C-h> <C-w>h
+"nmap <C-j> <C-w>j
+"nmap <C-k> <C-w>k
+"nmap <C-l> <C-w>l
 
 syntax on
 
