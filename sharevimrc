@@ -1,0 +1,85 @@
+" Split layouts
+set splitbelow
+set splitright
+
+""split navigations
+"nnoremap <C-J> <C-W>j
+"nnoremap <C-K> <C-W>k
+"nnoremap <C-H> <C-W>h
+"nnoremap <C-L> <C-W>l
+nmap <C-h> <C-w>h
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
+nmap <C-l> <C-w>l
+
+syntax on
+
+" spell checking
+autocmd BufRead,BufNewFile *.md setlocal spell spelllang=en_us
+autocmd BufRead,BufNewFile *.tex setlocal spell spelllang=en_us
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Python
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" PEP8 indentation
+au BufNewFile,BufRead *.py
+    \ set tabstop=4 |
+    \ set softtabstop=4 |
+    \ set shiftwidth=4 |
+    \ set textwidth=79 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix
+
+au BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=2 |
+    \ set softtabstop=2 |
+    \ set shiftwidth=2
+
+" Flagging Unnecessary Whitespace
+"au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+" UTF8 support
+set encoding=utf-8
+
+"turn on numbering
+set nu
+set ruler
+
+" OPTIONAL: This enables automatic indentation as you type.
+filetype indent on
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" code folding
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Enable folding
+set foldmethod=indent
+set foldlevel=99
+
+" Enable folding with the spacebar
+nnoremap <space> za
+
+" See the docstrings for folded code.
+let g:SimpylFold_docstring_preview=1
+
+if has("autocmd")
+  au BufNewFile,BufRead *.nml set filetype=fortran
+  au BufNewFile,BufRead *.namelist set filetype=fortran
+endif
+
+set ic
+
+if &diff
+  syntax off
+endif
+
+" Allow copy to system clipboard
+" Ref: https://vi.stackexchange.com/questions/84/how-can-i-copy-text-to-the-system-clipboard-from-vim
+noremap ,y "*y
+noremap ,p "*p
+noremap ,Y "+y
+noremap ,P "+p
+
