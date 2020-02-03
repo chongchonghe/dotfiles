@@ -30,6 +30,12 @@ alias jl="jupyter lab"
 ### set vi mode
 set -o vi
 
+function gitall() {
+    git add .
+    git commit -a -m "$1"
+    git push origin $(current_branch)
+}
+
 case `uname` in
     Darwin)
 	# commands for macOS go here
