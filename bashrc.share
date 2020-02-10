@@ -1,11 +1,28 @@
 #; -*-Shell-script-*-
 echo "sharerc is sourced"
 
+case `uname` in
+    Darwin)
+	# commands for macOS go here
+  alias ls="ls -GFh"
+  alias ll="ls -GFhl"
+  alias lt="ls -GFhltr"
+	alias ipython="ipython --pylab osx"
+	;;
+    Linux)
+	# commands for Linux go here
+  alias ls="ls --color=auto"
+  alias ll="ls -l --color=auto"
+  alias lt="ls -ltr --color=auto"
+	alias ipython="ipython --pylab"
+	;;
+    FreeBSD)
+	# commands for FreeBSD go here
+	;;
+esac
+
 ### Basics
 alias cctest="echo Yes sharerc is sourced"
-alias ls="ls -GFh"
-alias lt="ls -GFhltr"
-alias ll="ls -GFhl"
 alias rm="rm -i"
 alias mv="mv -i"
 alias cp="cp -i"
@@ -20,7 +37,7 @@ alias l3="ls -t1 | head -n 3 | tail -n 1"
 alias sshupdate="rsync -raz --progress"
 alias sizesort="du -s * | sort -n"
 alias tree="tree -N"
-alias rsyncu="rsync -Larvh --update" 
+alias rsyncu="rsync -Larvh --update"
 alias vimode="set -o vi"
 alias emacsmode="set -o emacs"
 alias pdb="python -m pdb"
@@ -35,18 +52,3 @@ function gitall() {
     git commit -a -m "$1"
     git push origin $(current_branch)
 }
-
-case `uname` in
-    Darwin)
-	# commands for macOS go here
-	#alias ads="adsbibdesk"
-	alias ipython="ipython --pylab osx"
-	;;
-    Linux)
-	# commands for Linux go here
-	alias ipython="ipython --pylab"
-	;;
-    FreeBSD)
-	# commands for FreeBSD go here
-	;;
-esac
