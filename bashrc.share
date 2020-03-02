@@ -52,3 +52,12 @@ function gitall() {
     git commit -a -m "$1"
     git push origin $(current_branch)
 }
+
+function rc() {
+  if [[ $1 == list ]]; then
+    ls ~/rc/
+  else
+    source ~/rc/${1}.rc
+  fi
+}
+alias whichrc="ls ~/rc/"
