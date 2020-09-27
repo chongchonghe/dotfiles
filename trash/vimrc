@@ -1,3 +1,8 @@
+" A minimal .vimrc with no plugin manager required
+" Author: Chong-Chong He
+" Email: che1234@umd.edu
+
+highlight! link DiffText Todo
 
 ""split navigations
 nnoremap <C-J> <C-W><C-J>
@@ -15,12 +20,7 @@ autocmd BufRead,BufNewFile *.tex setlocal spell spelllang=en_us
 
 let $max_print_line=1024
 
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Python
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" PEP8 indentation
+"" Python PEP8 indentation
 au BufNewFile,BufRead *.py
     \ set tabstop=4 |
     \ set softtabstop=4 |
@@ -55,10 +55,11 @@ noremap ,p "*p
 noremap ,Y "+y
 noremap ,P "+p
 
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Downloaded from Integralist/.vimrc: https://gist.github.com/Integralist/b435e36cfb3fdea1579b8f342b72974e
-" Basic .vimrc with no plugin manager defined
+" The following script is downloaded from
+" Integralist/.vimrc: https://gist.github.com/Integralist/b435e36cfb3fdea1579b8f342b72974e
+" Now the link failed and here is Integralist's new .vimrc:
+" https://github.com/Integralist/dotfiles/blob/master/.vimrc
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Use the system clipboard
@@ -160,6 +161,12 @@ set lazyredraw
 
 " Highlight a matching [{()}] when cursor is placed on start/end character
 set showmatch
+
+" <C-x><C-k> for word autocomplete
+set dictionary=/usr/share/dict/words
+
+" Use Ag for :grep command (would use Sift but it doesn't work well)
+set grepprg=ag\ --nogroup\ --nocolor
 
 " vim-go
 let g:go_fmt_command = "goimports"

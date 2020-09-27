@@ -1,5 +1,4 @@
 #; -*-Shell-script-*-
-echo "sharerc is sourced"
 
 case `uname` in
     Darwin)
@@ -43,6 +42,7 @@ alias emacsmode="set -o emacs"
 alias pdb="python -m pdb"
 alias jn="jupyter notebook"
 alias jl="jupyter lab"
+alias jpcv="jupyter nbconvert"
 
 ### set vi mode
 set -o vi
@@ -55,9 +55,20 @@ function gitall() {
 
 function rc() {
   if [[ $1 == list ]]; then
-    ls ~/rc/
+      if [[ $# -ge 2 ]]; then
+	  file=~/rc/${2}.list
+	  if [[ -e $file ]]; then
+	      zsh $file
+	  fi
+      else
+	  (cd ~/rc ; ls *.rc)
+      fi
   else
-    source ~/rc/${1}.rc
+      source ~/rc/${1}.rc
   fi
 }
-alias whichrc="ls ~/rc/"
+
+
+#-------------------------------   End   -------------------------------------
+# echo "bashrc.share is sourced"
+echo "$0 is sourced"
