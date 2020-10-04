@@ -15,8 +15,8 @@ case `uname` in
     Linux)
 	# commands for Linux go here
   alias ls="ls --color=auto"
-  alias ll="ls -l --color=auto"
-  alias lt="ls -ltr --color=auto"
+  alias ll="ls -lah --color=auto"
+  alias lt="ls -ltrh --color=auto"
 	alias ipython="ipython --pylab"
 	;;
     FreeBSD)
