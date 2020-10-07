@@ -378,7 +378,7 @@ if $OS == 'Darwin'
 
   " Image
   filetype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm,
-        \ open -a Preview.app,
+        \ open,
   fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm
           \ identify %f
 
