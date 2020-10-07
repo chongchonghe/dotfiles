@@ -9,6 +9,9 @@
 " My configurations
 " ------------------------------------------------------------------------------
 
+" map E to edit (e is preview)
+nnoremap E :edit<cr>
+
 
 " ------------------------------------------------------------------------------
 " The default vifmrc and its modification
@@ -166,7 +169,7 @@ command! du du -sh ./%f
 " fileviewer *[^/] pygmentize -O style=monokai -f console256 -g
 
 " Displaying pictures in terminal
-"
+
 " fileviewer *.jpg,*.png shellpic %c
 
 " Open all other files with default system programs (you can also remove all
@@ -419,6 +422,9 @@ if $OS == 'Darwin'
 
   " Mount .dmg archives
   filetype *.dmg open
+
+  " test
+  filetype *.epub !!echo
 
   " Mount disk .img
   filetype *.img open
