@@ -191,6 +191,12 @@ autocmd FileType sh,cucumber,ruby,yaml,zsh,vim setlocal shiftwidth=2 tabstop=2 e
 autocmd Bufread,BufNewFile *.spv set filetype=php
 autocmd Bufread,BufNewFile *.md set filetype=markdown " Vim interprets .md as 'modula2' otherwise, see :set filetype?
 
+if has("autocmd")
+  au BufNewFile,BufRead *.nml set filetype=fortran
+  au BufNewFile,BufRead *.namelist set filetype=fortran
+endif
+
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " End
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
