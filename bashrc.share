@@ -1,5 +1,5 @@
 #; -*-Shell-script-*-
-echo "sharerc is sourced"
+echo "Sourcing bashrc.share"
 
 ### Basics
 alias cctest="echo Yes sharerc is sourced"
@@ -20,7 +20,7 @@ alias l3="ls -t1 | head -n 3 | tail -n 1"
 alias sshupdate="rsync -raz --progress"
 alias sizesort="du -s * | sort -n"
 alias tree="tree -N"
-alias rsyncu="rsync -Larvh --update" 
+alias rsyncu="rsync -Larvh --update"
 alias vimode="set -o vi"
 alias emacsmode="set -o emacs"
 alias pdb="python -m pdb"
@@ -36,6 +36,12 @@ function gitall() {
     git push origin $(current_branch)
 }
 
+function outtime() {
+  for fn in output_*/info_0*.txt; do
+    head -9 $fn | tail -1
+  done
+}
+
 case `uname` in
     Darwin)
 	# commands for macOS go here
@@ -44,9 +50,10 @@ case `uname` in
 	;;
     Linux)
 	# commands for Linux go here
-	alias ipython="ipython --pylab"
+	#alias ipython="ipython"
 	;;
     FreeBSD)
 	# commands for FreeBSD go here
 	;;
 esac
+

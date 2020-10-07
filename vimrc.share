@@ -124,7 +124,7 @@ set shiftwidth=2
 set number
 
 " Highlight tailing whitespace
-set list listchars=tab:\ \ ,trail:·
+"set list listchars=tab:\ \ ,trail:·
 
 " Get rid of the delay when pressing O (for example)
 " http://stackoverflow.com/questions/2158516/vim-delay-before-o-opens-a-new-line
@@ -183,6 +183,12 @@ autocmd FileType sh,cucumber,ruby,yaml,zsh,vim setlocal shiftwidth=2 tabstop=2 e
 " Specify syntax highlighting for specific files
 autocmd Bufread,BufNewFile *.spv set filetype=php
 autocmd Bufread,BufNewFile *.md set filetype=markdown " Vim interprets .md as 'modula2' otherwise, see :set filetype?
+
+if has("autocmd")
+  au BufNewFile,BufRead *.nml set filetype=fortran
+  au BufNewFile,BufRead *.namelist set filetype=fortran
+endif
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " End
