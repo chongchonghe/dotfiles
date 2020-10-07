@@ -12,7 +12,6 @@
 " map E to edit (e is preview)
 nnoremap E :edit<cr>
 
-
 " ------------------------------------------------------------------------------
 " The default vifmrc and its modification
 " ------------------------------------------------------------------------------
@@ -183,7 +182,9 @@ command! du du -sh ./%f
 
 " What should be saved automatically between vifm sessions.  Drop "savedirs"
 " value if you don't want vifm to remember last visited directories for you.
-set vifminfo=dhistory,savedirs,chistory,state,tui,shistory,
+" set vifminfo=dhistory,savedirs,chistory,state,tui,shistory,
+"     \phistory,fhistory,dirstack,registers,bookmarks,bmarks
+set vifminfo=dhistory,chistory,state,tui,shistory,
     \phistory,fhistory,dirstack,registers,bookmarks,bmarks
 
 " ------------------------------------------------------------------------------
@@ -489,7 +490,7 @@ elseif $OS == 'Linux'
   " for unknown file types.
   " For *nix:
   " filetype * xdg-open
-  " filetype * !!echo
+  filetype * !!ls
   " For OS X:
   " filetype * open
   " For Windows:
