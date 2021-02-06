@@ -1,0 +1,37 @@
+WO_ROOT="${HOME}/system-essentials/programs/workon"
+WO_PYTHON="${WO_ROOT}/getdir.py"
+WO_JSON="${WO_ROOT}/projects.json"
+WO_MAIN="${WO_ROOT}/main.py"
+
+function workon() {
+    if [ "$#" -lt 1 ]; then
+        echo "Usage:
+
+wo tag
+
+or
+
+wo action tag [arg]"
+        return
+    fi
+    
+    if [ "$#" -eq 1 ]; then
+	case $1 in
+            -h | -help )
+		workon ;;
+	    -e | -edit )
+		vi ${WO_JSON} ;;
+	    -rc )
+		vi ${WO_ROOT}/workon.rc ;;
+	    * )
+		THISDIR="$(python ${WO_PYTHON} $1)"
+		cd $THISDIR
+		echo $THISDIR ;;
+	esac
+        return
+    fi
+    
+    python "${WO_MAIN}" $@
+}
+
+alias wo="workon"

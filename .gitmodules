@@ -1,0 +1,3 @@
+[submodule "Joplin-note-taking-templates"]
+	path = Joplin-note-taking-templates
+	url = https://github.com/WinkoErades/Joplin-note-taking-templates.git

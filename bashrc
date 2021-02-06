@@ -4,27 +4,10 @@
 # my UNIX machiens
 #------------------------------------------------------------------
 
-case `uname` in
-    Darwin)
-	# commands for macOS go here
-  alias ls="ls -GFh"
-  alias ll="ls -GFhl"
-  alias lt="ls -GFhltr"
-	alias ipython="ipython --pylab osx"
-	;;
-    Linux)
-	# commands for Linux go here
-  alias ls="ls --color=auto"
-  alias ll="ls -lah --color=auto"
-  alias lt="ls -ltrh --color=auto"
-	alias ipython="ipython --pylab"
-	;;
-    FreeBSD)
-	# commands for FreeBSD go here
-	;;
-esac
-
 ### Basics
+alias lt="ls -GFhltr"		 # macos
+alias ipythonpy="ipython --pylab"
+# alias lt="ls -ltrh --color=auto" # linux
 alias cctest="echo Yes sharerc is sourced"
 alias rm="rm -i"
 alias mv="mv -i"
@@ -49,13 +32,21 @@ alias jl="jupyter lab"
 alias jpcv="jupyter nbconvert"
 
 ### set vi mode
-set -o vi
+set -o emacs
 
+### PATH
+export PATH=${PATH}:~/dotfiles/bin
+# 2021-1-7
+export PATH=~/Documents/github_repos/academic-python/bin:${PATH}
+
+### git
 function gitall() {
     git add .
     git commit -a -m "$1"
     git push origin $(current_branch)
 }
+alias add="git add"
+alias cmt="git commit"
 
 function rc() {
   if [[ $1 == list ]]; then
@@ -70,6 +61,15 @@ function rc() {
   else
       source ~/rc/${1}.rc
   fi
+}
+
+### github
+function gitinit() {
+  git init
+  git add .
+  git commit -m "first commit"
+  git remote add origin $1
+  git push origin $(current_branch)
 }
 
 #---------------------------------  nnn ----------------------------------------
@@ -120,6 +120,19 @@ v () {
 #-------------------------------   Other   -------------------------------------
 export TERM=xterm-256color
 export EDITOR=vim
+
+# case `uname` in
+#     Darwin)
+# 	# commands for macOS go here
+# 	;;
+#     Linux)
+# 	# commands for Linux go here
+# 	alias ipython="ipython --pylab"
+# 	;;
+#     FreeBSD)
+# 	# commands for FreeBSD go here
+# 	;;
+# esac
 
 #-------------------------------   End   -------------------------------------
 # echo "bashrc.share is sourced"
