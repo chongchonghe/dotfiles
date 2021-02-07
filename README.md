@@ -1,28 +1,29 @@
-# system-essentials
+# Chong-Chong He's dotfiles
 
-Contains cross-platform essential configuration files, including
-- bashrc: a minimum bash or zsh configuration script. Shared among all UNIX platforms
-- vimrc: essential .vimrc shared on all platforms
-- tmux.conf: essential .tmux.conf shared on all platforms
-- .emacs: essential .emacs shared on platforms (TODO)
+This repository contains cross-platform essential dotfiles for macOS and linux machines, including
+- bashrc: a bash or zsh configuration script. Shared among all UNIX platforms
+- vimrc: essential configuration file for vim
+- tmux.conf: essential configuration for tmux
+- vifmrc: essential configuration for vifm
+- programs: some softwares that I wrote to boost up productivity
+- bin: executables
 
-## How to use this shell script in all platforms
+## How to use these dotfiles in your machine?
 
-I has the following script on the end of .bashrc or .zshrc on all UNIX
-systems (macOS, centOS, Redhat) to source bashrc.share:
+I has the following script near the top of ~/.bashrc or ~/.zshrc on all my UNIX
+machines (macOS, centOS, Redhat):
 
 ```shell
-if [ -f ~/system-essentials/bashrc.share ]; then 
-	. ~/system-essentials/bashrc.share;
-fi
+[[ -f ~/dotfiles/bashrc ]] && . ~/dotfiles/bashrc
 ```
 
-and I have the following script on the end of .vimrc:
+I have the following script at the top of ~/.vimrc:
 
 ```vimrc
 try
-  source ~/system-essentials/vimrc.share
+  source ~/dotfiles/vimrc
 catch
-  " No such file? No problem; just ignore it.
+  "~/dotfiles/vimrc not found. No problem; just ignore it."
 endtry
 ```
+
