@@ -2,6 +2,7 @@
 
 This repository contains cross-platform essential dotfiles for macOS and linux machines, including
 - bashrc: a bash or zsh configuration script. Shared among all UNIX platforms
+- emacs: my [Emacs dotfile](https://github.com/chongchonghe/emacs-dotfile). It's a standalone git repository. 
 - vimrc: essential configuration file for vim
 - tmux.conf: essential configuration for tmux
 - vifmrc: essential configuration for vifm
