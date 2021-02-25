@@ -22,7 +22,17 @@ command! vivi vim %f %F -O
 command! tar tar -xf %f
 command! targz tar -xzf %f
 command! bk !backup %c
-"command! tn tabnew
+command! subl !subl %c
+command! cdo :execute 'cd' '%D'
+" nnoremap b :bmgo<space>
+command! o :execute 'cd' system('getdir %a 2> /dev/null')
+nnoremap o :o<space>
+command! woadd !o + %a %d
+nnoremap r :!!
+
+ca tn tabnew
+ca tc tabclose
+ca e en
 
 "set find=find . -name=$1
 "set findprg="find %s %a -print , -type d \( ! -readable -o ! -executable \) -prune"
@@ -342,6 +352,12 @@ if $OS == 'Darwin'
       \ %pc
       \ kitty +kitten icat --transfer-mode=file --place=%pwx%ph@%pxx%py --clear
   "fileviewer {*.pdf},<application/pdf> pdftotext -nopgbrk %c -
+
+  " Audio
+  fileviewer *.mp3
+      \ ffplay -i -t 3 -autoexit -nodisp %c
+      \ %pc
+      \ ffplay -i -t 3 -autoexit -nodisp --clear
 
   " Video
   filetype *.gif,*.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,

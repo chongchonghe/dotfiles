@@ -167,6 +167,12 @@ autocmd BufRead,BufNewFile *.tex setlocal spell spelllang=en_us
 
 let $max_print_line=1024
 
+" tab space
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+
 "" Python PEP8 indentation
 au BufNewFile,BufRead *.py
     \ set tabstop=4 |

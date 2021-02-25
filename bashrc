@@ -4,8 +4,10 @@
 # my UNIX machiens
 #------------------------------------------------------------------
 
-### Basics
-alias lt="ls -GFhltr"		 # macos
+#--------------------------------- Alias ---------------------------------------
+alias ls="ls -GFh"
+alias lt="ls -GFhltr"
+alias ll="ls -GFhl"
 alias ipythonpy="ipython --pylab"
 # alias lt="ls -ltrh --color=auto" # linux
 alias cctest="echo Yes sharerc is sourced"
@@ -16,8 +18,14 @@ alias du="du -sh"
 alias l1="ls -t1 | head -n 1"
 alias l2="ls -t1 | head -n 2 | tail -n 1"
 alias l3="ls -t1 | head -n 3 | tail -n 1"
+# export lr="`ls -Art | tail -n 1`"
 # alias grep="grep -d skip"
 # alias grep="grep -r"
+alias debugf="gfortran -g -ffpe-trap=zero,invalid,overflow,underflow"
+# alias vi="vim"
+alias sizesort="du -s * | sort -n"
+# alias tree="tree -N"
+alias myrsync="rsync -Larvh --update" 
 
 ### Commands
 alias sshupdate="rsync -raz --progress"
@@ -30,6 +38,8 @@ alias pdb="python -m pdb"
 alias jn="jupyter notebook"
 alias jl="jupyter lab"
 alias jpcv="jupyter nbconvert"
+# alias mpirun='TMPDIR=/var/tmp/mympi mpirun'
+# alias sshupdate="rsync -raz --progress"
 
 ### set vi mode
 set -o emacs
@@ -38,6 +48,13 @@ set -o emacs
 export PATH=${PATH}:~/dotfiles/bin
 # 2021-1-7
 export PATH=~/Documents/github_repos/academic-python/bin:${PATH}
+
+#---------------------  functions -------------------------------
+
+### makecd
+function mkcd() {
+  mkdir $1 && cd $1
+}
 
 ### git
 function gitall() {
@@ -71,6 +88,8 @@ function gitinit() {
   git remote add origin $1
   git push origin $(current_branch)
 }
+
+
 
 #---------------------------------  nnn ----------------------------------------
 export NNN_USE_EDITOR=1                                 # use the $EDITOR when opening text files
