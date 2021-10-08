@@ -14,25 +14,37 @@ nnoremap E :edit<cr>
 command! ln ln -s %F
 " command! ln ln %d/%f %D
 command! en emacsclient -n %c
-command! op open %f
 command! dup cp %c %c.copy
 command! ll !!ls -l
 command! open !open .
+" command! op open %f
+    " https://q2a.vifm.info/26/how-to-open-file-with-different-program-than-the-one-defined
+command! op open -a %a %c
 command! vivi vim %f %F -O
-command! tar tar -xf %f
-command! targz tar -xzf %f
+command! tar tar -xf %c
+command! targz tar -xzf %c
 command! bk !backup %c
 command! subl !subl %c
 command! cdo :execute 'cd' '%D'
 " nnoremap b :bmgo<space>
-command! o :execute 'cd' system('getdir %a 2> /dev/null')
+command! o :execute 'cd' system('python3 ${WO_ROOT}/getdir.py %a 2> /dev/null')
 nnoremap o :o<space>
-command! woadd !o + %a %d
+command! oadd !o + %a %d
 nnoremap r :!!
+command! clmake make clean && make
+command! nbconvert !jupyter nbconvert --to html %c
+command! pdfpng !pdf2png %f
+command! pngpdf !png2pdf %f
+command! merge !mergepdf
+command! chrome !/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --app=file://%d/%c
+command! append !append-folder-name %c
+command! mvall !mv %C/* %c
 
 ca tn tabnew
 ca tc tabclose
 ca e en
+ca mc make clean
+ca mk make
 
 "set find=find . -name=$1
 "set findprg="find %s %a -print , -type d \( ! -readable -o ! -executable \) -prune"
