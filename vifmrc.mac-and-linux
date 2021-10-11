@@ -334,11 +334,6 @@ fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm
     \ %pc
     \ kitty icat --clear --silent %pd
 
-fileviewer *.pdf
-    \ tput cup %py %px > /dev/tty && sips -s format jpeg %c --out /tmp/tempfile.jpg > /dev/null&& kitty +icat --place %pwx%ph@%pxx%py --silent /tmp/tempfile.jpg
-    \ %pc
-    \ kitty +icat --clear --silent %pd
-
 fileviewer *.gif,*.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,*.as[fx]
     \ ffmpeg -y -hide_banner -loglevel panic -i %c -ss 00:00:05.000 -vframes 1 /tmp/tempfile.jpg > /dev/null && kitty +icat --place %pwx%ph@%pxx%py --silent /tmp/tempfile.jpg
     \ %pc
@@ -355,22 +350,26 @@ if $OS == 'Darwin'
     command! open !open .
     " command! op open %f
     command! op open -a %a %c
-  " FtpMount: not working
-  filetype *.ftp
-         \ {Mount with CurlFtpFS}
-         \ FUSE_MOUNT2|curlftpfs -o ftp_port=-,,disable_eprt %PARAM %DESTINATION_DIR %CLEAR,
-  filetype * open
+    " FtpMount: not working
+    filetype *.ftp
+        \ {Mount with CurlFtpFS}
+        \ FUSE_MOUNT2|curlftpfs -o ftp_port=-,,disable_eprt %PARAM %DESTINATION_DIR %CLEAR,
+    fileviewer *.pdf
+        \ tput cup %py %px > /dev/tty && sips -s format jpeg %c --out /tmp/tempfile.jpg > /dev/null&& kitty +icat --place %pwx%ph@%pxx%py --silent /tmp/tempfile.jpg
+        \ %pc
+        \ kitty +icat --clear --silent %pd
+    filetype * open
 
 elseif $OS == 'Linux'
 
-  if $HOME == '/homes/che1234'
-    set trashdir=/lustre/che1234/Trashdir
-  elseif $HOME == '/home/chongchong'
-    set trashdir=/startrek2nb/chongchong/Trashdir
-  endif
+    if $HOME == '/homes/che1234'
+      set trashdir=/lustre/che1234/Trashdir
+    elseif $HOME == '/home/chongchong'
+      set trashdir=/startrek2nb/chongchong/Trashdir
+    endif
 
-  filetype *.bmp,*.jpg,*.jpeg,*.png,*.xpm
-    \ !!echo %c && kitty +kitten icat %c
-  filetype * xdg-open
+    filetype *.bmp,*.jpg,*.jpeg,*.png,*.xpm
+      \ !!echo %c && kitty +kitten icat %c
+    filetype * xdg-open
 
 endif
