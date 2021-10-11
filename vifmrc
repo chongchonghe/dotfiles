@@ -390,6 +390,11 @@ if $OS == 'Darwin'
   filetype {*.html}
       \/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome,
 
+  " FtpMount
+  filetype *.ftp
+         \ {Mount with CurlFtpFS}
+         \ FUSE_MOUNT2|curlftpfs -o ftp_port=-,,disable_eprt %PARAM %DESTINATION_DIR %CLEAR,
+
   filetype * open
 
 elseif $OS == 'Linux'

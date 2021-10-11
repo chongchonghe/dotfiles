@@ -21,13 +21,18 @@ alias l3="ls -t1 | head -n 3 | tail -n 1"
 # export lr="`ls -Art | tail -n 1`"
 # alias grep="grep -d skip"
 # alias grep="grep -r"
-alias debugf="gfortran -g -ffpe-trap=zero,invalid,overflow,underflow"
 # alias vi="vim"
 alias sizesort="du -s * | sort -n"
 # alias tree="tree -N"
 alias myrsync="rsync -Larvh --update" 
+alias en="emacsclient -n"
+alias debugf="gfortran -g -ffpe-trap=zero,invalid,overflow,underflow"
+alias icat="kitty +kitten icat"
+alias e="emacs"
+alias ca="conda activate"
+alias t="kitty @ set-tab-title"
 
-### Commands
+### Commands alias
 alias sshupdate="rsync -raz --progress"
 alias sizesort="du -s * | sort -n"
 alias tree="tree -N"
@@ -43,11 +48,6 @@ alias jpcv="jupyter nbconvert"
 
 ### set vi mode
 set -o emacs
-
-### PATH
-export PATH=${PATH}:~/dotfiles/bin
-# 2021-1-7
-export PATH=~/Documents/github_repos/academic-python/bin:${PATH}
 
 #---------------------  functions -------------------------------
 
@@ -88,8 +88,6 @@ function gitinit() {
   git remote add origin $1
   git push origin $(current_branch)
 }
-
-
 
 #---------------------------------  nnn ----------------------------------------
 export NNN_USE_EDITOR=1                                 # use the $EDITOR when opening text files
