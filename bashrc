@@ -24,7 +24,7 @@ alias l3="ls -t1 | head -n 3 | tail -n 1"
 # alias vi="vim"
 alias sizesort="du -s * | sort -n"
 # alias tree="tree -N"
-alias myrsync="rsync -Larvh --update" 
+alias myrsync="rsync -Larvh --update"
 alias en="emacsclient -n"
 alias debugf="gfortran -g -ffpe-trap=zero,invalid,overflow,underflow"
 alias icat="kitty +kitten icat"
@@ -45,6 +45,8 @@ alias jl="jupyter lab"
 alias jpcv="jupyter nbconvert"
 # alias mpirun='TMPDIR=/var/tmp/mympi mpirun'
 # alias sshupdate="rsync -raz --progress"
+alias kdiff="kitty +kitten diff"
+alias kgitdiff="git difftool --no-symlinks --dir-diff"
 
 ### set vi mode
 set -o emacs

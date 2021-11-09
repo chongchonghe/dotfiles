@@ -350,6 +350,7 @@ if $OS == 'Darwin'
     command! open !open .
     " command! op open %f
     command! op open -a %a %c
+    command! preview open -a Preview.app %c
     " FtpMount: not working
     filetype *.ftp
         \ {Mount with CurlFtpFS}
