@@ -5,9 +5,9 @@
 #------------------------------------------------------------------
 
 #--------------------------------- Alias ---------------------------------------
-alias ls="ls -GFh"
-alias lt="ls -GFhltr"
-alias ll="ls -GFhl"
+alias ls="ls -GFh --color=auto"
+alias lt="ls -GFhltr --color=auto"
+alias ll="ls -GFhl --color=auto"
 alias ipythonpy="ipython --pylab"
 # alias lt="ls -ltrh --color=auto" # linux
 alias cctest="echo Yes sharerc is sourced"
@@ -28,9 +28,9 @@ alias myrsync="rsync -Larvh --update"
 alias en="emacsclient -n"
 alias debugf="gfortran -g -ffpe-trap=zero,invalid,overflow,underflow"
 alias icat="kitty +kitten icat"
-# alias e="emacs"
 alias ca="conda activate"
 alias t="kitty @ set-tab-title"
+alias enw="emacsclient -nw"	# open a new window on existing server
 
 ### Commands alias
 alias sshupdate="rsync -raz --progress"
