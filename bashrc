@@ -47,6 +47,8 @@ alias jpcv="jupyter nbconvert"
 # alias sshupdate="rsync -raz --progress"
 alias kdiff="kitty +kitten diff"
 alias kgitdiff="git difftool --no-symlinks --dir-diff"
+# git
+alias cmtnow="git commit -m '`date +"%Y-%m-%d %T"`'"
 
 ### set vi mode
 set -o emacs

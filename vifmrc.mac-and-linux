@@ -259,13 +259,6 @@ vnoremap w :view<cr>gv
 " " Open file in the background using its default program
 " nnoremap gb :!open -g %f<cr>
 
-" Yank current directory path into the clipboard
-nnoremap yd :!printf %d | pbcopy<cr>
-
-" Yank current file path into the clipboard
-nnoremap yf :!printf %c | pbcopy<cr>
-nnoremap yF :!printf %c:p | pbcopy<cr>
-
 " " View preview in Quick Look
 " nnoremap q :!qlmanage -p %f > /dev/null 2>&1<cr>
 " " Unhide builtin q* keymaps
@@ -351,6 +344,14 @@ if $OS == 'Darwin'
     " command! op open %f
     command! op open -a %a %c
     command! preview open -a Preview.app %c
+    command! gimp open -a GIMP-2.10.app %c
+
+    " Yank current directory path into the clipboard
+    nnoremap yd :!printf %d | pbcopy<cr>
+    " Yank current file path into the clipboard
+    nnoremap yf :!printf %c | pbcopy<cr>
+    nnoremap yF :!printf %c:p | pbcopy<cr>
+
     " FtpMount: not working
     filetype *.ftp
         \ {Mount with CurlFtpFS}
@@ -368,6 +369,12 @@ elseif $OS == 'Linux'
     elseif $HOME == '/home/chongchong'
       set trashdir=/startrek2nb/chongchong/Trashdir
     endif
+
+    " Yank current directory path into the clipboard
+    nnoremap yd :!printf %d | clipboard<cr>
+    " Yank current file path into the clipboard
+    nnoremap yf :!printf %c | clipboard<cr>
+    nnoremap yF :!printf %c:p | clipboard<cr>
 
     filetype *.bmp,*.jpg,*.jpeg,*.png,*.xpm
       \ !!echo %c && kitty +kitten icat %c
