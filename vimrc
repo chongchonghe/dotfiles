@@ -123,14 +123,15 @@ let g:go_metalinter_autosave = 1
 let g:go_metalinter_autosave_enabled = ['vet', 'golint']
 let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
 
-fun! StripTrailingWhitespace()
-  " Don't strip on these filetypes
-  if &ft =~ 'markdown'
-    return
-  endif
-  %s/\s\+$//e
-endfun
-autocmd BufWritePre * call StripTrailingWhitespace()
+" Don't do this!!!
+" fun! StripTrailingWhitespace()
+"   " Don't strip on these filetypes
+"   if &ft =~ 'markdown'
+"     return
+"   endif
+"   %s/\s\+$//e
+" endfun
+" autocmd BufWritePre * call StripTrailingWhitespace()
 
 autocmd Filetype gitcommit setlocal spell textwidth=72
 autocmd Filetype markdown setlocal wrap linebreak nolist textwidth=0 wrapmargin=0 " http://vim.wikia.com/wiki/Word_wrap_without_line_breaks

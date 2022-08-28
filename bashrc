@@ -28,7 +28,7 @@ alias myrsync="rsync -Larvh --update"
 alias en="emacsclient -n"
 alias debugf="gfortran -g -ffpe-trap=zero,invalid,overflow,underflow"
 alias icat="kitty +kitten icat"
-alias e="emacs"
+# alias e="emacs"
 alias ca="conda activate"
 alias t="kitty @ set-tab-title"
 
@@ -45,10 +45,9 @@ alias jl="jupyter lab"
 alias jpcv="jupyter nbconvert"
 # alias mpirun='TMPDIR=/var/tmp/mympi mpirun'
 # alias sshupdate="rsync -raz --progress"
-alias kdiff="kitty +kitten diff"
-alias kgitdiff="git difftool --no-symlinks --dir-diff"
+alias kittydiff="kitty +kitten diff"
+alias kittygitdiff="git difftool --no-symlinks --dir-diff"
 # git
-alias cmtnow="git commit -m '`date +"%Y-%m-%d %T"`'"
 
 ### set vi mode
 set -o emacs
@@ -67,6 +66,8 @@ function gitall() {
     git push origin $(current_branch)
 }
 alias add="git add"
+alias pull="ggpull"
+alias push="ggpush"
 alias cmt="git commit"
 
 function rc() {

@@ -7,6 +7,17 @@
 
 " ------------------------------------------------------------------------------
 " My configurations
+" :com[mand][!] command_name action
+" The following macros can be used in a command
+" %a is replaced with the user arguments.
+" %c the current file under the cursor.
+" %C the current file under the cursor in the other directory.
+" %f the current selected file, or files.
+" %F the current selected file, or files in the other directory.
+" %b same as %f %F.
+" %d the current directory name.
+" %D the other window directory name.
+" %m run the command in a menu window
 " ------------------------------------------------------------------------------
 
 " map E to edit (e is preview)
@@ -20,12 +31,13 @@ command! vivi vim %f %F -O
 command! tar tar -xf %c
 command! targz tar -xzf %c
 command! bk !backup %c
+command! date !dateit %c
 command! subl !subl %c
 command! cdo :execute 'cd' '%D'
 " nnoremap b :bmgo<space>
-command! o :execute 'cd' system('python3 ${WO_ROOT}/getdir.py %a 2> /dev/null')
+command! o :execute 'cd' system('python3 ${MOVE_ROOT}/getdir.py %a 2> /dev/null')
 nnoremap o :o<space>
-command! woadd !o + %a %d
+command! moveadd !o + %a %d
 nnoremap r :!!
 command! clmake make clean && make
 command! nbconvert !jupyter nbconvert --to html %c
@@ -35,12 +47,40 @@ command! merge !mergepdf
 command! chrome !/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --app=file://%d/%c
 command! append !append-folder-name %c
 command! mvall !mv %C/* %c
+command! animateit !/Users/chongchonghe/local/bin/animateit -d %f -f %a
+command! animateitgif !/Users/chongchonghe/local/bin/animateit -d %d -f %a -o "%{d}.gif"
+command! marked !open -a Marked\ 2 %c
+command! safari !open -a Safari %c
+command! Server :!sftp st
+command! sh :!sh %c
+" command! cp !cp -i %a .
+command! cp !cp -i %c %D
+command! mdorg !md2org --wrap=none %f -o "%f.org"
+" command! mv !mv '%f' '%D' " use command `m`
+command! j :execute 'cd' system('autojump %a 2> /dev/null')
+command! df df -h %m 2> /dev/null
+command! diff vim -d %f %F
+command! kittydiff kitty +kitten diff %f %F
+command! zip zip -r %f.zip %f
+command! run !! ./%f
+command! make !!make %a
+command! mkcd :mkdir %a | cd %a
+" command! reload :write | restart
+command! du du -sh ./%f
+" command! tn tabnext
+" command! tp tabprevious
+command! store !storefile %f
+" command! trash !trash %c
+command! backupnotion !backupnotion %c
+command! nemo !glnemo2 %c
 
 ca tn tabnew
 ca tc tabclose
 ca e en
 ca mc make clean
 ca mk make
+ca mm marked
+ca md mkdir
 
 "set find=find . -name=$1
 "set findprg="find %s %a -print , -type d \( ! -readable -o ! -executable \) -prune"
@@ -165,30 +205,6 @@ mark h ~/
 " mark u ~/usr/
 
 " ------------------------------------------------------------------------------
-
-" :com[mand][!] command_name action
-" The following macros can be used in a command
-" %a is replaced with the user arguments.
-" %c the current file under the cursor.
-" %C the current file under the cursor in the other directory.
-" %f the current selected file, or files.
-" %F the current selected file, or files in the other directory.
-" %b same as %f %F.
-" %d the current directory name.
-" %D the other window directory name.
-" %m run the command in a menu window
-
-command! df df -h %m 2> /dev/null
-command! diff vim -d %f %F
-command! zip zip -r %f.zip %f
-command! run !! ./%f
-command! make !!make %a
-command! mkcd :mkdir %a | cd %a
-" command! reload :write | restart
-command! du du -sh ./%f
-" command! tn tabnext
-" command! tp tabprevious
-
 " Syntax highlighting in preview
 "
 " Explicitly set highlight type for some extensions
@@ -342,7 +358,7 @@ if $OS == 'Darwin'
 
     command! open !open .
     " command! op open %f
-    command! op open -a %a %c
+    command! openw open -a %a %c
     command! preview open -a Preview.app %c
     command! gimp open -a GIMP-2.10.app %c
 
@@ -360,6 +376,10 @@ if $OS == 'Darwin'
         \ tput cup %py %px > /dev/tty && sips -s format jpeg %c --out /tmp/tempfile.jpg > /dev/null&& kitty +icat --place %pwx%ph@%pxx%py --silent /tmp/tempfile.jpg
         \ %pc
         \ kitty +icat --clear --silent %pd
+    filetype *.sh
+        \ sh
+    filetype *.org
+        \ emacsclient -n
     filetype * open
 
 elseif $OS == 'Linux'
