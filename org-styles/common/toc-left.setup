@@ -1,0 +1,10 @@
+# -*- mode: org; -*-
+
+# #+SETUPFILE: style/default.setup
+# #+HTML_HEAD: <link rel="stylesheet" href="style/better-font.css" type="text/css" />
+# #+HTML_HEAD: <link rel="stylesheet" href="style/custom.css" type="text/css" />
+# #+HTML_HEAD: <link rel="stylesheet" href="https://www.astro.umd.edu/~chongchong/html_styles/common/toc-left.css" type="text/css" />
+# #+HTML_HEAD: <link rel="stylesheet" href="https://www.astro.umd.edu/~chongchong/html_styles/common/toc-left.css" type="text/css" />
+#+HTML_HEAD: <style type="text/css"> @media only screen and (min-width: 1000px) { body { /* font-family: 'Helvetica Neue', Helvetica, 'Adobe Caslon Pro', 'Big Caslon', 'Source Serif Pro'; */ /* font-family: 'Adobe Caslon Pro', 'Big Caslon', 'Source Serif Pro'; */ /* font-size: 16px; */ font-family: Cambria, 'Times New Roman'; font-size: 18px; margin-right: 0; margin-left: 330px; padding: 1em; width: auto; max-width: 900px; /* border-right: thin solid gray; */ } #table-of-contents { top: 10px; /* right: 0; */ left: 5px; bottom: 5px; position: fixed; display: block; z-index: 99; padding: 15px; font-size: 0.9em; line-height: 1.4em; width: 300px; /* height: 800px; */ overflow-y: auto; /* border-left: thin solid gray; */ border-right: thin solid gray; display: block; } /* a { */ /*     color: inherit; */ /*     text-decoration: underline; */ /* } */ ul { padding-left: 20px; } } #org-div-home-and-up{font-size:70%;text-align:left;white-space:nowrap} </style>
+#+HTML_LINK_HOME: ./index.html
+#+HTML_LINK_UP: ./index.html

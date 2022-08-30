@@ -7,6 +7,17 @@
 
 " ------------------------------------------------------------------------------
 " My configurations
+" :com[mand][!] command_name action
+" The following macros can be used in a command
+" %a is replaced with the user arguments.
+" %c the current file under the cursor.
+" %C the current file under the cursor in the other directory.
+" %f the current selected file, or files.
+" %F the current selected file, or files in the other directory.
+" %b same as %f %F.
+" %d the current directory name.
+" %D the other window directory name.
+" %m run the command in a menu window
 " ------------------------------------------------------------------------------
 
 " map E to edit (e is preview)
@@ -14,25 +25,63 @@ nnoremap E :edit<cr>
 command! ln ln -s %F
 " command! ln ln %d/%f %D
 command! en emacsclient -n %c
-command! op open %f
 command! dup cp %c %c.copy
 command! ll !!ls -l
-command! open !open .
 command! vivi vim %f %F -O
-command! tar tar -xf %f
-command! targz tar -xzf %f
+command! tar tar -xf %c
+command! targz tar -xzf %c
 command! bk !backup %c
+command! date !dateit %c
+command! bkr !backuprename %c
 command! subl !subl %c
 command! cdo :execute 'cd' '%D'
 " nnoremap b :bmgo<space>
-command! o :execute 'cd' system('getdir %a 2> /dev/null')
+command! o :execute 'cd' system('python3 ${MOVE_ROOT}/getdir.py %a 2> /dev/null')
 nnoremap o :o<space>
-command! woadd !o + %a %d
+command! moveadd !o + %a %d
 nnoremap r :!!
+command! clmake make clean && make
+command! nbconvert !jupyter nbconvert --to html %c
+command! pdfpng !pdf2png %f
+command! pngpdf !png2pdf %f
+command! merge !mergepdf
+command! chrome !/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --app=file://%d/%c
+command! append !append-folder-name %c
+command! mvall !mv %C/* %c
+command! animateit !/Users/chongchonghe/local/bin/animateit -d %f -f %a
+command! animateitgif !/Users/chongchonghe/local/bin/animateit -d %d -f %a -o "%{d}.gif"
+command! marked !open -a Marked\ 2 %c
+command! safari !open -a Safari %c
+command! Server :!sftp st
+command! sh :!sh %c
+" command! cp !cp -i %a .
+command! cp !cp -i %c %D
+command! mdorg !md2org --wrap=none %f -o "%f.org"
+" command! mv !mv '%f' '%D' " use command `m`
+command! j :execute 'cd' system('autojump %a 2> /dev/null')
+command! df df -h %m 2> /dev/null
+command! diff vim -d %f %F
+command! kittydiff kitty +kitten diff %f %F
+command! zip zip -r %f.zip %f
+command! run !! ./%f
+command! make !!make %a
+command! mkcd :mkdir %a | cd %a
+" command! reload :write | restart
+command! du du -sh ./%f
+" command! tn tabnext
+" command! tp tabprevious
+command! store !storefile %f
+" command! trash !trash %c
+command! backupnotion !backupnotion %c
+command! nemo !glnemo2 %c
 
 ca tn tabnew
 ca tc tabclose
 ca e en
+ca mc make clean
+ca mk make
+ca mm marked
+ca md mkdir
 
 "set find=find . -name=$1
 "set findprg="find %s %a -print , -type d \( ! -readable -o ! -executable \) -prune"
@@ -157,30 +206,6 @@ mark h ~/
 " mark u ~/usr/
 
 " ------------------------------------------------------------------------------
-
-" :com[mand][!] command_name action
-" The following macros can be used in a command
-" %a is replaced with the user arguments.
-" %c the current file under the cursor.
-" %C the current file under the cursor in the other directory.
-" %f the current selected file, or files.
-" %F the current selected file, or files in the other directory.
-" %b same as %f %F.
-" %d the current directory name.
-" %D the other window directory name.
-" %m run the command in a menu window
-
-command! df df -h %m 2> /dev/null
-command! diff vim -d %f %F
-command! zip zip -r %f.zip %f
-command! run !! ./%f
-command! make !!make %a
-command! mkcd :mkdir %a | cd %a
-" command! reload :write | restart
-command! du du -sh ./%f
-" command! tn tabnext
-" command! tp tabprevious
-
 " Syntax highlighting in preview
 "
 " Explicitly set highlight type for some extensions
@@ -251,13 +276,6 @@ vnoremap w :view<cr>gv
 " " Open file in the background using its default program
 " nnoremap gb :!open -g %f<cr>
 
-" Yank current directory path into the clipboard
-nnoremap yd :!printf %d | pbcopy<cr>
-
-" Yank current file path into the clipboard
-nnoremap yf :!printf %c | pbcopy<cr>
-nnoremap yF :!printf %c:p | pbcopy<cr>
-
 " " View preview in Quick Look
 " nnoremap q :!qlmanage -p %f > /dev/null 2>&1<cr>
 " " Unhide builtin q* keymaps
@@ -313,130 +331,84 @@ nnoremap ,c :write | edit $MYVIFMRC | restart<cr>
 " let $VIFM_SERVER_NAME = v:servername
 
 " ------------------------------------------------------------------------------
+" The file type is for the default programs to be used with
+" a file extension.
+" :filetype pattern1,pattern2 defaultprogram,program2
+" :fileviewer pattern1,pattern2 consoleviewer
+" The other programs for the file type can be accessed with the :file command
+" The command macros like %f, %F, %d, %D may be used in the commands.
+" The %a macro is ignored.  To use a % you must put %%.
+
+fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm
+    \ kitty +icat --place %pwx%ph@%pxx%py  --silent %c
+    \ %pc
+    \ kitty icat --clear --silent %pd
+
+fileviewer *.pdf
+    " \ tput cup %py %px > /dev/tty && sips -s format jpeg %c --out /tmp/tempfile.jpg > /dev/null&& kitty +icat --place %pwx%ph@%pxx%py --silent /tmp/tempfile.jpg
+    " \ pdftoppm %c /tmp/abc -png -f 1 -singlefile -rx %px -ry %py > /dev/null && kitty +icat --place %pwx%ph@%pxx%py --silent /tmp/abc.png
+    \ pdftoppm %c /tmp/abc -png -f 1 > /dev/null && kitty +icat --place %pwx%ph@%pxx%py --silent /tmp/abc-1.png
+    \ %pc
+    \ kitty icat --clear --silent %pd
+
+fileviewer *.gif,*.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,*.as[fx]
+    \ ffmpeg -y -hide_banner -loglevel panic -i %c -ss 00:00:05.000 -vframes 1 /tmp/tempfile.jpg > /dev/null && kitty +icat --place %pwx%ph@%pxx%py --silent /tmp/tempfile.jpg
+    \ %pc
+    \ kitty icat --clear --silent %pd
+
+" ------------------------------------------------------------------------------
 " System-specific configurations
 " ------------------------------------------------------------------------------
 
 let $OS = system('uname -s')
+
 if $OS == 'Darwin'
-  " ------------------------------------------------------------------------------
 
-  " The file type is for the default programs to be used with
-  " a file extension.
-  " :filetype pattern1,pattern2 defaultprogram,program2
-  " :fileviewer pattern1,pattern2 consoleviewer
-  " The other programs for the file type can be accessed with the :file command
-  " The command macros %f, %F, %d, %F may be used in the commands.
-  " Spaces in an app name will have to be escaped e.g. QuickTime\ Player.app
-  " The %a macro is ignored.  To use a % you must put %%.
+    command! open !open .
+    " command! op open %f
+    command! openw open -a %a %c
+    command! preview open -a Preview.app %c
+    command! gimp open -a GIMP-2.10.app %c
 
-  " Pictures
-  "filetype *.bmp,*.jpg,*.jpeg,*.png,*.xpm open -a Preview %f &
-  "fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.xpm
-  "    \ kitty +kitten icat --clear --transfer-mode=file --place=%pwx%ph@%pxx%py %c
-  "    \ %pc
-  "    \ kitty +kitten icat --transfer-mode=file --place=%pwx%ph@%pxx%py --clear
-  fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.xpm
-      \ kitty +kitten icat --transfer-mode=file --place=%pwx%ph@%pxx%py %c
-      \ %pc
-      \ kitty +kitten icat --transfer-mode=file --place=%pwx%ph@%pxx%py --clear
-  "fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.xpm
-  "    \ vifmimg draw %px %py %pw %ph %c
-  "    \ %pc
-  "    \ vifmimg clear
+    " Yank current directory path into the clipboard
+    nnoremap yd :!printf %d | pbcopy<cr>
+    " Yank current file path into the clipboard
+    nnoremap yf :!printf %c | pbcopy<cr>
+    nnoremap yF :!printf %c:p | pbcopy<cr>
 
-  " PDF
-  filetype {*.pdf},<application/pdf>
-      \ open -a PDF\ Expert.app,
-  fileviewer *.pdf
-      \ tput cup %py %px > /dev/tty && sips -s format jpeg %c --out /tmp/tempfile.jpg > /dev/null&& kitty +kitten icat --transfer-mode=file --place=%pwx%ph@%pxx%py /tmp/tempfile.jpg
-      \ %pc
-      \ kitty +kitten icat --transfer-mode=file --place=%pwx%ph@%pxx%py --clear
-  "fileviewer {*.pdf},<application/pdf> pdftotext -nopgbrk %c -
-
-  " Audio
-  fileviewer *.mp3
-      \ ffplay -i -t 3 -autoexit -nodisp %c
-      \ %pc
-      \ ffplay -i -t 3 -autoexit -nodisp --clear
-
-  " Video
-  filetype *.gif,*.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
-      \*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,
-      \*.as[fx]
-      \ {Open in IINA}
-      \ open -a IINA.app,
-      \ {Open in QuickTime Player}
-      \ open -a QuickTime\ Player.app,
-      \ {Open in MPlayerX}
-      \ open -a MPlayerX.app,
-  fileviewer *.gif,*.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,*.as[fx]
-    \ ffmpeg -y -hide_banner -loglevel panic -i %c -ss 00:00:05.000 -vframes 1 /tmp/tempfile.jpg > /dev/null && kitty +kitten icat --transfer-mode=file --place=%pwx%ph@%pxx%py /tmp/tempfile.jpg
-    \ %pc
-    \ kitty +kitten icat --transfer-mode=file --place=%pwx%ph@%pxx%py --clear
-
-  " html
-  filetype {*.html}
-      \/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome,
-
-  filetype * open
+    " FtpMount: not working
+    filetype *.ftp
+        \ {Mount with CurlFtpFS}
+        \ FUSE_MOUNT2|curlftpfs -o ftp_port=-,,disable_eprt %PARAM %DESTINATION_DIR %CLEAR,
+    fileviewer *.pdf
+        \ tput cup %py %px > /dev/tty && sips -s format jpeg %c --out /tmp/tempfile.jpg > /dev/null&& kitty +icat --place %pwx%ph@%pxx%py --silent /tmp/tempfile.jpg
+        \ %pc
+        \ kitty +icat --clear --silent %pd
+    filetype *.sh
+        \ sh
+    filetype *.org
+        \ emacsclient -n
+    filetype * open
 
 elseif $OS == 'Linux'
-  if $HOME == '/homes/che1234'
-    set trashdir=/lustre/che1234/Trashdir
-  elseif $HOME == '/home/chongchong'
-    set trashdir=/startrek2nb/chongchong/Trashdir
-  endif
-  " ------------------------------------------------------------------------------
-  " The file type is for the default programs to be used with
-  " a file extension.
-  " :filetype pattern1,pattern2 defaultprogram,program2
-  " :fileviewer pattern1,pattern2 consoleviewer
-  " The other programs for the file type can be accessed with the :file command
-  " The command macros like %f, %F, %d, %D may be used in the commands.
-  " The %a macro is ignored.  To use a % you must put %%.
 
-  " Images
-  filextype {*.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm},<image/*>
-	  \ {View in eog}
-	  \ eog %f,
-          \ {View in sxiv}
-          \ sxiv %f,
-          \ {View in gpicview}
-          \ gpicview %c,
-          \ {View in shotwell}
-          \ shotwell,
-  fileviewer {*.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm},<image/*>
-           \ identify %f
+    command! open !xdg-open %c
 
-  " Syntax highlighting in preview
-  "
-  " Explicitly set highlight type for some extensions
-  "
-  " 256-color terminal
-  " fileviewer *.[ch],*.[ch]pp highlight -O xterm256 -s dante --syntax c %c
-  " fileviewer Makefile,Makefile.* highlight -O xterm256 -s dante --syntax make %c
-  "
-  " 16-color terminal
-  " fileviewer *.c,*.h highlight -O ansi -s dante %c
-  "
-  " Or leave it for automatic detection
-  "
-  " fileviewer *[^/] pygmentize -O style=monokai -f console256 -g
+    if $HOME == '/homes/che1234'
+      set trashdir=/lustre/che1234/Trashdir
+    elseif $HOME == '/home/chongchong'
+      set trashdir=/startrek2nb/chongchong/Trashdir
+    endif
 
-  " Displaying pictures in terminal
-  "
-  " fileviewer *.jpg,*.png shellpic %c
+    " Yank current directory path into the clipboard
+    nnoremap yd :!printf %d | clipboard<cr>
+    " Yank current file path into the clipboard
+    nnoremap yf :!printf %c | xclip<cr>
+    nnoremap yF :!printf %c:p | xclip<cr>
 
-  " Open all other files with default system programs (you can also remove all
-  " :file[x]type commands above to ensure they don't interfere with system-wide
-  " settings).  By default all unknown files are opened with 'vi[x]cmd'
-  " uncommenting one of lines below will result in ignoring 'vi[x]cmd' option
-  " for unknown file types.
-  " For *nix:
-  " filetype * xdg-open
-  filetype * !!echo
-  " For OS X:
-  " filetype * open
-  " For Windows:
-  " filetype * start, explorer
+    filetype *.bmp,*.jpg,*.jpeg,*.png,*.xpm
+      \ !!echo %c && kitty +kitten icat %c
+    filetype * xdg-open
+
 endif
+

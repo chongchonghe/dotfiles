@@ -1,0 +1,27 @@
+# about: set font size to 18 and set max-width for images
+
+#+HTML_HEAD: <style type="text/css"> body { font-size: 20px; color:black; max-width: 1100px; } img { max-width: 100%; } </style>
+#+HTML_HEAD: <style>
+#+HTML_HEAD: #myBtn {
+#+HTML_HEAD:   display: none;
+#+HTML_HEAD:   position: fixed;
+#+HTML_HEAD:   bottom: 30px;
+#+HTML_HEAD:   right: 40px;
+#+HTML_HEAD:   z-index: 99;
+#+HTML_HEAD:   font-size: 20px;
+#+HTML_HEAD:   border: none;
+#+HTML_HEAD:   outline: none;
+#+HTML_HEAD:   background-color: lightgrey;
+#+HTML_HEAD:   color: white;
+#+HTML_HEAD:   cursor: pointer;
+#+HTML_HEAD:   padding: 13px;
+#+HTML_HEAD:   padding-top: 5px;
+#+HTML_HEAD:   padding-bottom: 10px;
+#+HTML_HEAD:   border-radius: 4px;
+#+HTML_HEAD: }
+#+HTML_HEAD: 
+#+HTML_HEAD: #myBtn:hover {
+#+HTML_HEAD:   background-color: #555;
+#+HTML_HEAD: }
+#+HTML_HEAD: </style>
+#+OPTIONS: _:{} ^:{}

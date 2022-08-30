@@ -1,0 +1,85 @@
+/* This style sheet configures the home page of Note */
+
+@import url("./style.css");
+
+body {
+    font-family: Helvetica;
+}
+
+/* Don't number each post header.  */
+.section-number-2 { display: none; }
+
+/* Hide tags. */
+span.tag { display: none; }
+
+.title {
+    font-size: 70px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-weight: normal;
+    /* Make the title looks aligned to the headings below it. */
+    margin-left: -3px;
+}
+
+h2 {
+    /* Tighter gap between posts than Note default. */
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+    font-size: 20px;
+}
+
+/* Header style */
+div#content h2 a{
+    font-weight: normal;
+    color: black;
+}
+
+/* Portrait */
+@media screen and (max-width: 1023px) {
+    div#taglist { display: none; }
+}
+
+/* Landscape */
+@media screen and (min-width: 1024px) {
+    div#taglist  {
+        font-size: 12pt;
+        position: fixed;
+        overflow-y: scroll;
+        left: calc((100vw - var(--landscape-body-width) - var(--landscape-sidebar-width)) / 3);
+        width: calc(var(--landscape-sidebar-width) - 80px);
+        top: 155px;
+        /* Hide scrollbar in Firefox */
+        scrollbar-width: none;
+        /* Hide scrollbar in Edge */
+        -ms-overflow-style: none;
+    }
+    /* Hide scrollbar in Safari and Chrome */
+    div#taglist::-webkit-scrollbar {
+        display: none;
+    }
+    div#taglist p {
+        /* Make cursor hand on hover */
+        cursor: pointer;
+        margin-bottom: 1em;
+        border-width: 2px;
+        border-style: solid;
+        padding-left: 1em;
+        padding-right: 1em;
+        text-align: right;
+    }
+    div#taglist p:hover {
+        background-color: var(--foreground) !important;
+        color: var(--background) !important;
+    }
+
+    div#taglist p.noselect {
+        color: gray;
+        border-color: gray;
+    }
+
+    div#taglist p.include {
+        color: var(--foreground);
+        border-color: var(--foreground);
+    }
+
+}

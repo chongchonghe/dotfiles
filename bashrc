@@ -5,9 +5,9 @@
 #------------------------------------------------------------------
 
 #--------------------------------- Alias ---------------------------------------
-alias ls="ls -GFh"
-alias lt="ls -GFhltr"
-alias ll="ls -GFhl"
+alias ls="ls -GFh --color=auto"
+alias lt="ls -GFhltr --color=auto"
+alias ll="ls -GFhl --color=auto"
 alias ipythonpy="ipython --pylab"
 # alias lt="ls -ltrh --color=auto" # linux
 alias cctest="echo Yes sharerc is sourced"
@@ -21,13 +21,18 @@ alias l3="ls -t1 | head -n 3 | tail -n 1"
 # export lr="`ls -Art | tail -n 1`"
 # alias grep="grep -d skip"
 # alias grep="grep -r"
-alias debugf="gfortran -g -ffpe-trap=zero,invalid,overflow,underflow"
 # alias vi="vim"
 alias sizesort="du -s * | sort -n"
 # alias tree="tree -N"
-alias myrsync="rsync -Larvh --update" 
+alias myrsync="rsync -Larvh --update"
+alias en="emacsclient -n"
+alias debugf="gfortran -g -ffpe-trap=zero,invalid,overflow,underflow"
+alias icat="kitty +kitten icat"
+alias ca="conda activate"
+alias t="kitty @ set-tab-title"
+alias enw="emacsclient -nw"	# open a new window on existing server
 
-### Commands
+### Commands alias
 alias sshupdate="rsync -raz --progress"
 alias sizesort="du -s * | sort -n"
 alias tree="tree -N"
@@ -40,20 +45,17 @@ alias jl="jupyter lab"
 alias jpcv="jupyter nbconvert"
 # alias mpirun='TMPDIR=/var/tmp/mympi mpirun'
 # alias sshupdate="rsync -raz --progress"
+alias kittydiff="kitty +kitten diff"
+alias kittygitdiff="git difftool --no-symlinks --dir-diff"
 
 ### set vi mode
 set -o emacs
 
-### PATH
-export PATH=${PATH}:~/dotfiles/bin
-# 2021-1-7
-export PATH=~/Documents/github_repos/academic-python/bin:${PATH}
-
 #---------------------  functions -------------------------------
 
 ### makecd
-function mkcd() {
-  mkdir $1 && cd $1
+mkcd() {
+  mkdir -p -- "$1" && cd -P -- "$1"
 }
 
 ### git
@@ -63,6 +65,8 @@ function gitall() {
     git push origin $(current_branch)
 }
 alias add="git add"
+alias pull="ggpull"
+alias push="ggpush"
 alias cmt="git commit"
 
 function rc() {
@@ -88,8 +92,6 @@ function gitinit() {
   git remote add origin $1
   git push origin $(current_branch)
 }
-
-
 
 #---------------------------------  nnn ----------------------------------------
 export NNN_USE_EDITOR=1                                 # use the $EDITOR when opening text files

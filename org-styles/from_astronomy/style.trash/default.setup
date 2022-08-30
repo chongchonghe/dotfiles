@@ -1,0 +1,21 @@
+# -*- mode: org; -*-
+
+#+LANGUAGE: en
+#+PROPERTY: header-args :results code replace :exports both :noweb yes :tangle no
+# #+HTML_HEAD: <link rel="stylesheet" href="https://gongzhitaao.org/orgcss/org.css" type="text/css" />
+#+HTML_HEAD: <link rel="stylesheet" href="css/org.css" type="text/css" />
+#+HTML_HEAD: <link rel="stylesheet" href="css/custom.css" type="text/css" />
+# #+HTML_HEAD: <link rel="stylesheet" href="/Users/chongchonghe/Documents/computer/emacs/org_export/better-font.css" type="text/css" />
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+OPTIONS: H:4 num:t toc:t \\n:nil ::t |:t ^:{} -:t f:t *:t
+#+OPTIONS: d:(HIDE) tags:not-in-toc
+#+TAGS: export(e) noexport(n)
+#+STARTUP: fninline fold nodlcheck lognotestate content
+#+HTML_LINK_HOME: ./index.html
+#+HTML_LINK_UP: ./index.html
+#+LaTeX_HEADER: \newcommand{\dif}{\,\mathrm{d}}
+#+LaTeX_HEADER: \newcommand{\sci}[2]{#1 \times 10^{#2}}
+#+LaTeX_HEADER: \def\num#1{\numx#1}\def\numx#1e#2{{#1}\mathrm{e}{#2}}
+#+LaTeX_HEADER: \newcommand{\msun}{{\rm M}_\odot}
+#+LaTeX_HEADER: \newcommand{\si}[1]{{\rm #1}}
+#+LaTeX_HEADER: \usepackage{breqn}
