@@ -32,6 +32,7 @@ command! tar tar -xf %c
 command! targz tar -xzf %c
 command! bk !backup %c
 command! date !dateit %c
+command! bkr !backuprename %c
 command! subl !subl %c
 command! cdo :execute 'cd' '%D'
 " nnoremap b :bmgo<space>
@@ -402,11 +403,12 @@ elseif $OS == 'Linux'
     " Yank current directory path into the clipboard
     nnoremap yd :!printf %d | clipboard<cr>
     " Yank current file path into the clipboard
-    nnoremap yf :!printf %c | clipboard<cr>
-    nnoremap yF :!printf %c:p | clipboard<cr>
+    nnoremap yf :!printf %c | xclip<cr>
+    nnoremap yF :!printf %c:p | xclip<cr>
 
     filetype *.bmp,*.jpg,*.jpeg,*.png,*.xpm
       \ !!echo %c && kitty +kitten icat %c
     filetype * xdg-open
 
 endif
+

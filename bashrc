@@ -47,7 +47,6 @@ alias jpcv="jupyter nbconvert"
 # alias sshupdate="rsync -raz --progress"
 alias kittydiff="kitty +kitten diff"
 alias kittygitdiff="git difftool --no-symlinks --dir-diff"
-# git
 
 ### set vi mode
 set -o emacs
@@ -55,8 +54,8 @@ set -o emacs
 #---------------------  functions -------------------------------
 
 ### makecd
-function mkcd() {
-  mkdir $1 && cd $1
+mkcd() {
+  mkdir -p -- "$1" && cd -P -- "$1"
 }
 
 ### git
