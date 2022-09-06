@@ -1,0 +1,4 @@
+# about: set font size to 18 and set max-width for images
+
+#+SETUPFILE: ../simple_inline.theme
+#+SETUPFILE: ../common/default2.setup
