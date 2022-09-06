@@ -72,6 +72,11 @@ function gitall() {
     git commit -a -m "$1"
     git push origin $(current_branch)
 }
+function gitallnow() {
+    git add .
+    cmtnow
+    git push origin $(current_branch)
+}
 alias add="git add"
 alias pull="ggpull"
 alias push="ggpush"
