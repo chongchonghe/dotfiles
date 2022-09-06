@@ -74,6 +74,7 @@ command! store !storefile %f
 " command! trash !trash %c
 command! backupnotion !backupnotion %c
 command! nemo !glnemo2 %c
+command! tail !tail -f %c
 
 ca tn tabnew
 ca tc tabclose
@@ -116,7 +117,7 @@ set syscalls
 " I recommend not changing this until you are familiar with vifm.
 " This probably shouldn't be an option.
 
-set notrash
+" set notrash
 
 " This is how many directories to store in the directory history.
 
@@ -395,7 +396,8 @@ elseif $OS == 'Linux'
     command! open !xdg-open %c
 
     if $HOME == '/homes/che1234'
-      set trashdir=/lustre/che1234/Trashdir
+      " set trashdir=/lustre/che1234/Trashdir
+      set trashdir=${HOME}/Trashdir
     elseif $HOME == '/home/chongchong'
       set trashdir=/startrek2nb/chongchong/Trashdir
     endif
