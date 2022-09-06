@@ -142,13 +142,20 @@ n ()
 
 #-------------------------------   vifm   -------------------------------------
 v () {
-      local dst="$(command vifm --choose-dir - "$@")"
-      if [ -z "$dst" ]
-      then
-              echo 'Directory picking cancelled/failed'
-              return 1
-      fi
-      cd "$dst"
+    # Block nesting of vifm in subshells
+    echo $VIFM
+    # if [ -n "$VIFM" ] && [ -n "${VIFM:-0}" ]; then
+    if [ -n "$VIFM" ]; then
+	echo "vifm is already running"
+	return
+    fi
+    local dst="$(command vifm --choose-dir - "$@")"
+    if [ -z "$dst" ]
+    then
+        echo 'Directory picking cancelled/failed'
+        return 1
+    fi
+    cd "$dst"
 }
 
 #-------------------------------   Other   -------------------------------------
