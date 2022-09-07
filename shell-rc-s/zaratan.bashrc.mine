@@ -1,0 +1,6 @@
+
+# SLURM
+alias me="squeue -u che1234"
+alias nodes="sinfo -o \"%R %C\""
+
+

@@ -24,7 +24,6 @@ alias l3="ls -t1 | head -n 3 | tail -n 1"
 # alias vi="vim"
 alias sizesort="du -s * | sort -n"
 # alias tree="tree -N"
-alias myrsync="rsync -Larvh --update"
 alias en="emacsclient -n"
 alias debugf="gfortran -g -ffpe-trap=zero,invalid,overflow,underflow"
 alias icat="kitty +kitten icat"
@@ -37,6 +36,11 @@ alias sshupdate="rsync -raz --progress"
 alias sizesort="du -s * | sort -n"
 alias tree="tree -N"
 alias rsyncu="rsync -Larvh --update"
+alias myrsync="rsync -Larvh --update"
+alias rsync0="rsync -Larvh"
+alias rsync1="rsync -Larvh --update"
+alias rsync2="rsync -Larh --info=progress2"
+alias rsync12="rsync -Larh --update --info=progress2"
 alias vimode="set -o vi"
 alias emacsmode="set -o emacs"
 alias pdb="python -m pdb"
@@ -47,6 +51,10 @@ alias jpcv="jupyter nbconvert"
 # alias sshupdate="rsync -raz --progress"
 alias kittydiff="kitty +kitten diff"
 alias kittygitdiff="git difftool --no-symlinks --dir-diff"
+alias my-rsync="rsync -lhrtu"
+alias my-rsync-bar="rsync -lhrtu --info=progress2"
+alias my-rsyncL="rsync -Lhrtu"
+alias my-rsyncL-bar="rsync -Lhrtu --info=progress2"
 
 ### set vi mode
 set -o emacs
@@ -62,6 +70,11 @@ mkcd() {
 function gitall() {
     git add .
     git commit -a -m "$1"
+    git push origin $(current_branch)
+}
+function gitallnow() {
+    git add .
+    cmtnow
     git push origin $(current_branch)
 }
 alias add="git add"
@@ -129,13 +142,20 @@ n ()
 
 #-------------------------------   vifm   -------------------------------------
 v () {
-      local dst="$(command vifm --choose-dir - "$@")"
-      if [ -z "$dst" ]
-      then
-              echo 'Directory picking cancelled/failed'
-              return 1
-      fi
-      cd "$dst"
+    # Block nesting of vifm in subshells
+    echo $VIFM
+    # if [ -n "$VIFM" ] && [ -n "${VIFM:-0}" ]; then
+    if [ -n "$VIFM" ]; then
+	echo "vifm is already running"
+	return
+    fi
+    local dst="$(command vifm --choose-dir - "$@")"
+    if [ -z "$dst" ]
+    then
+        echo 'Directory picking cancelled/failed'
+        return 1
+    fi
+    cd "$dst"
 }
 
 #-------------------------------   Other   -------------------------------------

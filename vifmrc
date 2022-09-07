@@ -74,6 +74,7 @@ command! store !storefile %f
 " command! trash !trash %c
 command! backupnotion !backupnotion %c
 command! nemo !glnemo2 %c
+command! tail !tail -f %c
 
 ca tn tabnew
 ca tc tabclose
@@ -116,7 +117,7 @@ set syscalls
 " I recommend not changing this until you are familiar with vifm.
 " This probably shouldn't be an option.
 
-set notrash
+" set notrash
 
 " This is how many directories to store in the directory history.
 
@@ -386,6 +387,8 @@ if $OS == 'Darwin'
         \ kitty +icat --clear --silent %pd
     filetype *.sh
         \ sh
+    filetype *.out
+        \ tail -f
     filetype *.org
         \ emacsclient -n
     filetype * open
@@ -395,7 +398,8 @@ elseif $OS == 'Linux'
     command! open !xdg-open %c
 
     if $HOME == '/homes/che1234'
-      set trashdir=/lustre/che1234/Trashdir
+      " set trashdir=/lustre/che1234/Trashdir
+      set trashdir=${HOME}/Trashdir
     elseif $HOME == '/home/chongchong'
       set trashdir=/startrek2nb/chongchong/Trashdir
     endif
@@ -408,6 +412,8 @@ elseif $OS == 'Linux'
 
     filetype *.bmp,*.jpg,*.jpeg,*.png,*.xpm
       \ !!echo %c && kitty +kitten icat %c
+    filetype *.out
+        \ tail -f
     filetype * xdg-open
 
 endif
