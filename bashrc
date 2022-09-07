@@ -143,7 +143,6 @@ n ()
 #-------------------------------   vifm   -------------------------------------
 v () {
     # Block nesting of vifm in subshells
-    echo $VIFM
     # if [ -n "$VIFM" ] && [ -n "${VIFM:-0}" ]; then
     if [ -n "$VIFM" ]; then
 	echo "vifm is already running"
