@@ -76,6 +76,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64
 [[ -s /homes/che1234/.autojump/etc/profile.d/autojump.sh ]] && source /homes/che1234/.autojump/etc/profile.d/autojump.sh
 #}}}
 
+
 ############### Load bashrc from system-essentials #################
 [ -f ~/system-essentials/bashrc ] && . ~/system-essentials/bashrc
 
