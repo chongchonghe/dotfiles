@@ -74,6 +74,8 @@ command! store !storefile %f
 " command! trash !trash %c
 command! backupnotion !backupnotion %c
 command! nemo !glnemo2 %c
+command! tail !tail -f %c
+command! merge !pdfunite ./*.pdf merge.pdf
 
 ca tn tabnew
 ca tc tabclose
