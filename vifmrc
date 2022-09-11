@@ -398,9 +398,8 @@ elseif $OS == 'Linux'
 
     command! open !xdg-open %c
 
-    if $HOME == '/homes/che1234'
-      " set trashdir=/lustre/che1234/Trashdir
-      set trashdir=${HOME}/Trashdir
+    if $HOME == '/home/che1234'
+      set trashdir=/home/che1234/Trashdir
     elseif $HOME == '/home/chongchong'
       set trashdir=/startrek2nb/chongchong/Trashdir
     endif
