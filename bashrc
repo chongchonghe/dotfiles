@@ -4,6 +4,13 @@
 # my UNIX machiens
 #------------------------------------------------------------------
 
+function patha () {
+  export PATH=$PATH:$1
+}
+function pathp () {
+  export PATH=$1:$PATH
+}
+
 #--------------------------------- Alias ---------------------------------------
 alias ls="ls -GFh --color=auto"
 alias lt="ls -GFhltr --color=auto"
