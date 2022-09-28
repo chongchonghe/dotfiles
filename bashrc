@@ -42,10 +42,10 @@ alias enw="emacsclient -nw"	# open a new window on existing server
 alias sshupdate="rsync -raz --progress"
 alias sizesort="du -s * | sort -n"
 alias tree="tree -N"
-alias mysync="rsync -larvh"
-alias mysync-L="rsync -Larvh"
-alias mysync-Lu="rsync -Larvh --update"
-alias mysync-bar="rsync -larh --info=progress2"
+alias myrsync="rsync -larvh"
+alias myrsyncL="rsync -Larvh"
+alias mysyncLu="rsync -Larvh --update"
+alias mysyncbar="rsync -larh --info=progress2"
 alias vimode="set -o vi"
 alias emacsmode="set -o emacs"
 alias pdb="python -m pdb"
@@ -60,6 +60,7 @@ alias my-rsync="rsync -lhrtu"
 alias my-rsync-bar="rsync -lhrtu --info=progress2"
 alias my-rsyncL="rsync -Lhrtu"
 alias my-rsyncL-bar="rsync -Lhrtu --info=progress2"
+alias cmtnow="git commit -m 'on st, at `date +"%Y-%m-%d %T"`'"
 
 ### set vi mode
 set -o emacs

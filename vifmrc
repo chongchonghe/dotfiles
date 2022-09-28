@@ -417,7 +417,8 @@ elseif $OS == 'Linux'
     nnoremap yF :!printf %c:p | xclip<cr>
 
     filetype *.bmp,*.jpg,*.jpeg,*.png,*.xpm
-      \ !!echo %c && kitty +kitten icat %c
+      " \ !!echo %c && kitty +kitten icat %c
+        \ xdg-open
     filetype *.out
         \ tail -f
     fileviewer *.out
