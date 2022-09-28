@@ -42,12 +42,10 @@ alias enw="emacsclient -nw"	# open a new window on existing server
 alias sshupdate="rsync -raz --progress"
 alias sizesort="du -s * | sort -n"
 alias tree="tree -N"
-alias rsyncu="rsync -Larvh --update"
-alias myrsync="rsync -Larvh --update"
-alias rsync0="rsync -Larvh"
-alias rsync1="rsync -Larvh --update"
-alias rsync2="rsync -Larh --info=progress2"
-alias rsync12="rsync -Larh --update --info=progress2"
+alias mysync="rsync -larvh"
+alias mysync-L="rsync -Larvh"
+alias mysync-Lu="rsync -Larvh --update"
+alias mysync-bar="rsync -larh --info=progress2"
 alias vimode="set -o vi"
 alias emacsmode="set -o emacs"
 alias pdb="python -m pdb"
@@ -183,4 +181,4 @@ export EDITOR=vim
 
 #-------------------------------   End   -------------------------------------
 # echo "bashrc.share is sourced"
-echo "$0 is sourced"
+# echo "$0 is sourced"

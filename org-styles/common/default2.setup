@@ -1,6 +1,7 @@
 # about: set font size to 18 and set max-width for images
 
-#+HTML_HEAD: <style type="text/css"> body { font-size: 20px; color:black; max-width: 1100px; } img { max-width: 100%; } </style>
+#+HTML_HEAD: <style type="text/css"> body { font-size: 20px; color:black; max-width: 1100px; } img { width: 300px; } </style>
+##+HTML_HEAD: <style type="text/css"> body { font-size: 20px; color:black; max-width: 1100px; } img { max-width: 100%; } </style>
 #+HTML_HEAD: <style>
 #+HTML_HEAD: #myBtn {
 #+HTML_HEAD:   display: none;

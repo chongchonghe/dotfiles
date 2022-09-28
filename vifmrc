@@ -41,7 +41,7 @@ nnoremap o :o<space>
 command! moveadd !o + %a %d
 nnoremap r :!!
 command! clmake make clean && make
-command! nbconvert !jupyter nbconvert --to html %c
+command! nbconvert !/Users/chongchonghe/anaconda3/bin/jupyter nbconvert --to html %c
 command! pdfpng !pdf2png %f
 command! pngpdf !png2pdf %f
 command! merge !mergepdf
@@ -394,6 +394,10 @@ if $OS == 'Darwin'
         \ sh
     filetype *.org
         \ emacsclient -n
+    filetype *.zsh
+        \ zsh
+    filetype *.html
+        \ open -a Safari.app
     filetype * open
 
 elseif $OS == 'Linux'
