@@ -60,7 +60,6 @@ alias my-rsync="rsync -lhrtu"
 alias my-rsync-bar="rsync -lhrtu --info=progress2"
 alias my-rsyncL="rsync -Lhrtu"
 alias my-rsyncL-bar="rsync -Lhrtu --info=progress2"
-alias cmtnow="git commit -m 'on st, at `date +"%Y-%m-%d %T"`'"
 
 ### set vi mode
 set -o emacs
@@ -112,6 +111,10 @@ function gitinit() {
   git push origin $(current_branch)
 }
 
+function cht() {
+  curl "cht.sh/$1"
+}
+
 #---------------------------------  nnn ----------------------------------------
 export NNN_USE_EDITOR=1                                 # use the $EDITOR when opening text files
 # export NNN_SSHFS_OPTS="sshfs -o follow_symlinks"      # make sshfs follow symlinks on the remote
@@ -151,8 +154,8 @@ v () {
     # Block nesting of vifm in subshells
     # if [ -n "$VIFM" ] && [ -n "${VIFM:-0}" ]; then
     if [ -n "$VIFM" ]; then
-	echo "vifm is already running"
-	return
+	      echo "vifm is already running. Press C-d to quit current shell "
+	      return
     fi
     local dst="$(command vifm --choose-dir - "$@")"
     if [ -z "$dst" ]

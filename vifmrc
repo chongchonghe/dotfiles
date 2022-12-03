@@ -22,8 +22,12 @@
 
 " map E to edit (e is preview)
 nnoremap E :edit<cr>
-command! ln ln -s %F
-" command! ln ln %d/%f %D
+" command! ln ln -s %f:p %D
+" absolute link
+command! lna ln -s %F 
+" relative link
+command! ln ln -s `realpath --relative-to="." %F`
+" command! ln ln -s %d/%f %D
 command! en emacsclient -n %c
 command! dup cp %c %c.copy
 command! ll !!ls -l
@@ -35,6 +39,9 @@ command! date !dateit %c
 command! bkr !backuprename %c
 command! subl !subl %c
 command! cdo :execute 'cd' '%D'
+" copy a file from clipboard with relative path to the other window directory
+command! cpr !cp -i %d/%a %D
+nnoremap m :cpr<space>
 " nnoremap b :bmgo<space>
 command! o :execute 'cd' system('python3 ${MOVE_ROOT}/getdir.py %a 2> /dev/null')
 nnoremap o :o<space>
@@ -46,12 +53,13 @@ command! pdfpng !pdf2png %f
 command! pngpdf !png2pdf %f
 command! merge !mergepdf
 command! chrome !/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --app=file://%d/%c
-command! append !append-folder-name %c
+command! append !append-eolder-name %c
 command! mvall !mv %C/* %c
 command! animateit !/Users/chongchonghe/local/bin/animateit -d %f -f %a
 command! animateitgif !/Users/chongchonghe/local/bin/animateit -d %d -f %a -o "%{d}.gif"
 command! marked !open -a Marked\ 2 %c
 command! safari !open -a Safari %c
+command! texstudio !open -a TexStudio.app %c
 command! Server :!sftp st
 command! sh :!sh %c
 " command! cp !cp -i %a .
@@ -76,6 +84,8 @@ command! backupnotion !backupnotion %c
 command! nemo !glnemo2 %c
 command! tail !tail -f %c
 command! merge !pdfunite ./*.pdf merge.pdf
+command! texcl !texcl
+command! code !code .
 
 ca tn tabnew
 ca tc tabclose
@@ -84,6 +94,7 @@ ca mc make clean
 ca mk make
 ca mm marked
 ca md mkdir
+ca a cpr
 
 "set find=find . -name=$1
 "set findprg="find %s %a -print , -type d \( ! -readable -o ! -executable \) -prune"
@@ -381,6 +392,9 @@ if $OS == 'Darwin'
     " Yank current file path into the clipboard
     nnoremap yf :!printf %c | pbcopy<cr>
     nnoremap yF :!printf %c:p | pbcopy<cr>
+    " Yank current file path (relative to the directory in the other window) as
+    " markdown format into the clipboard
+    nnoremap ym :!md-local-image %f %D<cr>
 
     " FtpMount: not working
     filetype *.ftp
@@ -395,7 +409,7 @@ if $OS == 'Darwin'
     filetype *.org
         \ emacsclient -n
     filetype *.zsh
-        \ zsh
+        \ zsh %c && read "ENTER"
     filetype *.html
         \ open -a Safari.app
     filetype * open
