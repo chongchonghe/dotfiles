@@ -43,7 +43,7 @@ command! cdo :execute 'cd' '%D'
 command! cpr !cp -i %d/%a %D
 nnoremap m :cpr<space>
 " nnoremap b :bmgo<space>
-command! o :execute 'cd' system('python3 ${MOVE_ROOT}/getdir.py %a 2> /dev/null')
+command! o :execute 'cd' system('python3 ${MOVE_ROOT}/getdir_with_quote.py %a 2> /dev/null')
 nnoremap o :o<space>
 command! moveadd !o + %a %d
 nnoremap r :!!
@@ -69,6 +69,7 @@ command! mdorg !md2org --wrap=none %f -o "%f.org"
 command! j :execute 'cd' system('autojump %a 2> /dev/null')
 command! df df -h %m 2> /dev/null
 command! diff vim -d %f %F
+command! dif !diff %f %F
 command! kittydiff kitty +kitten diff %f %F
 command! zip zip -r %f.zip %f
 command! run !! ./%f
@@ -86,6 +87,10 @@ command! tail !tail -f %c
 command! merge !pdfunite ./*.pdf merge.pdf
 command! texcl !texcl
 command! code !code .
+command! mvdown !sh ${HOME}/local/bin/mv_newest_in_downloads_here.sh
+command! talkmd !talkmd %a
+command! rmsp !remove_space %c
+command! mkproj !mkproj %a
 
 ca tn tabnew
 ca tc tabclose
@@ -410,8 +415,8 @@ if $OS == 'Darwin'
         \ emacsclient -n
     filetype *.zsh
         \ zsh %c && read "ENTER"
-    filetype *.html
-        \ open -a Safari.app
+    " filetype *.html
+    "     \ open -a Safari.app
     filetype * open
 
 elseif $OS == 'Linux'
