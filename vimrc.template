@@ -1,0 +1,5 @@
+try
+  source ~/dotfiles/vimrc
+catch
+  "~/dotfiles/vimrc not found. No problem; just ignore it."
+endtry
