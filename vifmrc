@@ -424,11 +424,12 @@ elseif $OS == 'Linux'
 
     command! open !xdg-open %c
 
-    if $HOME == '/home/che1234'
-      set trashdir=/home/che1234/Trashdir
-    elseif $HOME == '/home/chongchong'
-      set trashdir=/startrek2nb/chongchong/Trashdir
-    endif
+    " if $HOME == '/home/che1234'
+    "   set trashdir=/home/che1234/Trashdir
+    " elseif $HOME == '/home/chongchong'
+    "   set trashdir=/startrek2nb/chongchong/Trashdir
+    " endif
+    set trashdir=$HOME/.Trashdir
 
     " Yank current directory path into the clipboard
     nnoremap yd :!printf %d | clipboard<cr>

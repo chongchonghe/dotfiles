@@ -88,17 +88,18 @@ alias push="ggpush"
 alias cmt="git commit"
 
 function rc() {
+  therc="$HOME/rc_local"
   if [[ $1 == list ]]; then
       if [[ $# -ge 2 ]]; then
-	  file=~/rc/${2}.list
+	  file=$therc/${2}.list
 	  if [[ -e $file ]]; then
 	      zsh $file
 	  fi
       else
-	  (cd ~/rc ; ls *.rc)
+	  (cd $therc ; ls *.rc)
       fi
   else
-      source ~/rc/${1}.rc
+      source $therc/${1}.rc
   fi
 }
 
