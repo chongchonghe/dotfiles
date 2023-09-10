@@ -1,0 +1,348 @@
+
+* Mail (mu4e)
+
+I have moved my =mail.el= here. A backup file is in =.spacemacs.d/trash-lisp=.
+
+** Usage
+
+A list of mail folders:
+- All mail: archives, not going to see anymore, but keep them anyway.
+- Reference: like archives, but more likely to read
+- To do: To read with more care, perhaps reply or doing something
+- Followup: waiting for reply
+- Bills
+- Drafts
+
+** Startup config
+
+Beginning of use-package: (this code block must be accompanied by a
+closing parathesis, ')', in the 'end of use-package' section.)
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package mu4e
+    :defer t
+    :commands (mu4e)
+    :bind (("C-c m" . mu4e)
+           )
+    :load-path "/usr/local/Cellar/mu/1.4.13/share/emacs/site-lisp/mu/mu4e"
+    :config
+#+end_src
+
+#+begin_src emacs-lisp
+  ;; (require 'mu4e)
+  (setq mail-user-agent 'mu4e-user-agent ;; use mu4e for e-mail in emacs
+        ;; for mbsync, when move a message to All Mail as archiving
+        mu4e-change-filenames-when-moving t
+        mu4e-view-show-addresses t
+        mu4e-maildir "~/Maildir"
+        mu4e-get-mail-command "mbsync umd"
+        mu4e-attachment-dir "~/Documents/MailAttachments"
+        mu4e-update-interval 180
+        ;; mu4e-update-interval nil  ; stop mu4e from updating mails
+        ;; disable the message in the minibuffer when index/mails are updated
+        mu4e-hide-index-messages nil
+        )
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+  (add-hook 'mu4e-compose-mode-hook #'no-auto-fill)
+  (add-hook 'mu4e-view-mode-hook #'no-auto-fill)
+  (add-hook 'mu4e-view-mode-hook #'mixed-pitch-mode)
+
+  ;; variable-pitch seems not to apply to mu4e-view-body-face, so I
+  ;; need to set it up separately
+  ;; Ref: https://github.com/djcb/mu/blob/master/mu4e/mu4e-vars.el
+  (set-face-attribute 'mu4e-view-body-face nil :height 1.2)
+#+end_src
+
+** Key-bindings
+
+#+begin_src emacs-lisp :tangle yes
+  (define-key mu4e-view-mode-map (kbd "j") 'next-line)
+  (define-key mu4e-view-mode-map (kbd "k") 'previous-line)
+  (define-key mu4e-headers-mode-map (kbd "j") 'next-line)
+  (define-key mu4e-headers-mode-map (kbd "k") 'previous-line)
+  (define-key mu4e-main-mode-map (kbd "U") 'mu4e-update-index)
+#+end_src
+
+** Beautify
+
+#+begin_src emacs-lisp
+  (setq mu4e-headers-fields
+        '(
+          (:human-date    . 12)    ;; alternatively, use :human-date
+          (:flags         . 6)
+          (:from-or-to    . 21)
+          (:subject       . 46)
+          )) ;; alternatively, use :thread-subject
+#+end_src
+
+** Managing email
+
+#+BEGIN_SRC emacs-lisp
+  ;; don't keep message buffers around
+  (setq message-kill-buffer-on-exit t)
+
+  (setq
+   sendmail-program "/usr/local/bin/msmtp"
+   message-sendmail-f-is-evil t
+   message-sendmail-extra-arguments '("--read-envelope-from")
+   ;; send-mail-function 'smtpmail-send-it
+   ;; message-send-mail-function 'message-send-mail-with-sendmail
+   message-send-mail-function 'smtpmail-send-it
+   user-full-name "ChongChong He"
+   user-mail-address "che1234@umd.edu"
+   smtpmail-smtp-user "che1234@umd.edu"
+   smtpmail-default-smtp-server "smtp.gmail.com"
+   smtpmail-smtp-server "smtp.gmail.com"
+   smtpmail-smtp-service 587
+   ;; smtpmail-stream-type 'starttls
+   starttls-use-gnutls t
+   smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+   ;; smtpmail-auth-credentials (expand-file-name "~/.authinfo.gpg")
+   smtpmail-debug-info t
+   mu4e-compose-keep-self-cc t
+   mu4e-compose-dont-reply-to-self nil
+   ;; smtpmail-auth-credentials '(("smtp.gmail.com" 587 "che1234@umd.edu" nil))
+   ;; testing: removing all the folder def since I don't need
+   ;; it. Later will set folder shortcuts
+   ;; Sent mail??? not sure
+   ;; mu4e-sent-folder "/umd/[Gmail].All Mail"
+   mu4e-sent-folder "/umd/[Gmail].Sent Mail"
+   mu4e-refile-folder "/umd/[Gmail].All Mail"
+   mu4e-drafts-folder "/umd/[Gmail].Drafts"
+   mu4e-trash-folder "/umd/[Gmail].Trash"
+   ;; don't save message to Sent Messages, IMAP takes care of this
+   ;; folders
+   )
+#+END_SRC
+
+** Labels (shortcuts)
+
+#+begin_src emacs-lisp :tangle yes
+  (setq 
+   mu4e-maildir-shortcuts
+   '(("/umd/INBOX"               . ?i)
+		 ("/umd/[Gmail].Sent Mail"       . ?s)
+		 ("/umd/[Gmail].Drafts"          . ?d)
+		 ("/umd/[Gmail].Starred"         . ?*)
+		 ;; ("/umd/[Gmail].All Mail"        . ?a)
+		 ("/umd/high/TODO"               . ?t)
+		 ("/umd/high/academic"           . ?a)
+		 ("/umd/high/marked"             . ?m)
+		 ("/umd/high/followup"           . ?f)
+		 ("/umd/t: reference"            . ?r)
+		 ("/umd/t: later"                . ?l)
+		 ("/umd/t: history"              . ?h)
+		 )
+   )
+#+end_src
+
+** send html message
+
+Compose message with org-mode support by enabling ~org-mu4e-compose-org-mode~, and do ~htmlize-and-send~: ([[https://kitchingroup.cheme.cmu.edu/blog/2016/10/29/Sending-html-emails-from-org-mode-with-org-mime/][Ref-1]] and [[https://lists.gnu.org/archive/html/emacs-orgmode/2016-11/msg00351.html][Ref-2]])
+
+#+begin_src emacs-lisp
+  (defun htmlize-and-send ()
+    "When in an org-mu4e-compose-org-mode message, htmlize and send it."
+    (interactive)
+    (when (member 'org~mu4e-mime-switch-headers-or-body post-command-hook)
+      (org-mime-htmlize)
+      (org-mu4e-compose-org-mode)
+      (message-send-and-exit)))
+#+end_src
+
+** Auto CC self
+
+  Ref:
+  https://emacs.stackexchange.com/questions/52608/how-to-add-a-value-for-cc-or-reply-to-in-each-new-message/52609
+
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'mu4e-compose-mode-hook
+              (defun my-add-bcc ()
+                "Add a cc: header."
+                (save-excursion (message-add-header "Cc: che1234@umd.edu\n"))))
+
+    ;; ;; from https://www.djcbsoftware.nl/code/mu/mu4e/Compose-hooks.html
+    ;; (add-hook 'mu4e-compose-mode-hook
+    ;;           (lambda()
+    ;;             (let* ((ctx (mu4e-context-current))
+    ;;                    (name (if ctx (mu4e-context-name ctx))))
+    ;;               (when name
+    ;;                 (cond
+    ;;                  ((string= name "astro")
+    ;;                   (save-excursion (message-add-header "Cc: chongchong@astro.umd.edu\n")))
+    ;;                  ((string= name "terpmail")
+    ;;                   (save-excursion (message-add-header "Cc: che1234@terpmail.umd.edu\n")))
+    ;;                  ((string= name "umd")
+    ;;                   (save-excursion (message-add-header "Cc: che1234@umd.edu\n")))
+    ;; 		 )))))
+  #+END_SRC
+
+** Making mu4e email faster
+
+Ref: https://divansantana.com/making-mu4e-faster/index.html
+# #+begin_src emacs-lisp
+#   (setq
+#    mu4e-index-lazy-check t
+#    mu4e-index-cleanup nil)
+# #+end_src
+
+** Send-delay (not using)
+
+**Not using**
+Allowing to schedule mails to be sent at a later time. Thus enabling
+the ability to “undo send” mails.
+
+#+begin_src emacs-lisp :tangle no
+  (require 'mu4e-send-delay)
+  (mu4e-send-delay-setup)
+  (add-hook 'mu4e-main-mode-hook 'mu4e-send-delay-initialize-send-queue-timer)
+
+  (add-hook 'mu4e-main-mode-hook (lambda ()
+                                   (define-key mu4e-compose-mode-map
+                                     (kbd "C-c C-c")
+                                     'mu4e-send-delay-send-and-exit)))
+  (setq mu4e-send-delay-default-delay "1m")
+#+end_src
+
+** Header of reply
+
+Message citation with date and time:
+#+begin_src emacs-lisp
+  (setq message-citation-line-function 'message-insert-formatted-citation-line)
+  (setq message-citation-line-format "On %a, %b %d %Y at %R, %f wrote:\n")
+#+end_src
+
+** Notification
+
+#+begin_src emacs-lisp
+  (setq mu4e-enable-notifications t)
+  (with-eval-after-load 'mu4e-alert
+    ;; Enable Desktop notifications
+    ;; (mu4e-alert-set-default-style 'notifications)) ; For Linux.
+    ;; (mu4e-alert-set-default-style 'libnotify))  ; Alternative for Linux
+    (mu4e-alert-set-default-style 'notifier))   ; For macOS (through the
+                                                ; terminal notifier app).
+    ;; (mu4e-alert-set-default-style 'growl))      ; Alternative for macOS.
+  ;; Mode Line display of unread emails
+  ;; Display of the unread email count in the mode-line
+  ;; (add-hook 'after-init-hook #'mu4e-alert-enable-mode-line-display)
+  (add-hook 'after-init-hook #'mu4e-alert-disable-mode-line-display)
+  ;; adding the following snippet to your init file, will instruct
+  ;; mu4e-alert to only display the number of unread emails.
+  (setq mu4e-alert-email-notification-types '(subjects))
+  ;; (setq mu4e-alert-email-notification-types '(count))
+#+end_src
+
+** Rich-text messages
+
+Not used:
+#+begin_src emacs-lisp :tangle no
+  (setq Mu4e-html2text-command "html2text -utf8 -width 72")
+#+end_src
+
+On OS X, there is a program called textutil as yet another alternative:
+#+begin_src emacs-lisp :tangle yes
+  (setq mu4e-html2text-command
+        "textutil -stdin -format html -convert txt -stdout")
+#+end_src
+
+View in browser (Ref:
+https://stackoverflow.com/questions/28258133/how-to-view-mu4e-emacs-buffer-in-browser)
+
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'mu4e-view-actions
+               '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+#+end_src
+
+(Disabled) Open long html messages in browser
+
+#+begin_src emacs-lisp :tangle no
+  ;; (setq mu4e-html2text-command "w3m -T text/html")
+
+  (defun my-mu4e-html2text (msg)
+			"My html2text function; shows short message inline, show
+  long messages in some external browser (see `browse-url-generic-program')."
+			(let ((html (or (mu4e-message-field msg :body-html) "")))
+	  (if (> (length html) 20000)
+		  "Long html"
+				(mu4e-shr2text msg))))
+
+  ;; (defun my-mu4e-html2text (msg)
+  ;;       "My html2text function; shows short message inline, show
+  ;; long messages in some external browser (see `browse-url-generic-program')."
+  ;;       (let ((html (or (mu4e-message-field msg :body-html) "")))
+  ;; 	(if (> (length html) 20000)
+  ;; 		(progn
+  ;; 		      (mu4e-action-view-in-browser msg)
+  ;; 		      "[Viewing message in external browser]")
+  ;; 	      (mu4e-shr2text msg))))
+
+  (setq mu4e-html2text-command 'my-mu4e-html2text)
+#+end_src
+
+** Signatures
+
+#+begin_src emacs-lisp
+  ;; (setq mu4e-compose-signature
+  ;;    "ChongChong He\n")
+  (defun my-mu4e-choose-signature ()
+    "Insert one of a number of sigs"
+    (interactive)
+    (let ((message-signature
+           (mu4e-read-option "Signature:"
+                             '(("formal" .
+                                (concat
+                                 "Chong-Chong He\n"
+                                 "PhD Candidate, Department of Astronomy\n"
+                                 "University of Maryland, College Park\n"
+                                 "che1234@umd.edu\n"
+                                 "http://www.astro.umd.edu/~chongchong"))
+                               ("informal" .
+                                (concat
+                                 "Best,\n"
+                                 "ChongChong\n")
+                                )
+                               ))))
+      (message-insert-signature)))
+  (add-hook 'mu4e-compose-mode-hook
+            (lambda () (local-set-key (kbd "C-c C-w s") #'my-mu4e-choose-signature)))
+#+end_src
+
+** Thread folding
+
+Functions and hot-keys to fold threads. Also make ~mu4e-headers-fold-all~ run
+after loading mu4e-header. =mu4e-thread-folding.el= is download from [[https://gist.github.com/felipeochoa/614308ac9d2c671a5830eb7847985202][this github
+gist]], following [[https://www.reddit.com/r/emacs/comments/9dqzjq/run_a_function_after_a_mode_loads/][this page.]]
+
+#+begin_src emacs-lisp :tangle yes
+  (load-file "/Users/chongchonghe/.spacemacs.d/private/mu4e-thread-folding.el")
+  (define-key 'mu4e-headers-mode-map (kbd "TAB") 'mu4e-headers-toggle-thread-folding)
+  ;;(add-hook 'mu4e-headers-found-hook 'mu4e-headers-fold-all)
+#+end_src
+
+** Bookmarks
+
+Ref: https://www.djcbsoftware.nl/code/mu/mu4e/Bookmarks.html
+
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'mu4e-bookmarks
+               '( :name  "Since 2021-1-1"
+                         :query "maildir:/umd/INBOX AND date:20210101..now"
+                         :key ?r))
+#+end_src
+
+** end of use-package
+
+#+begin_src emacs-lisp :tangle yes
+  )
+#+end_src
+
+** mu4e-conversation
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package mu4e-conversation
+		:after mu4e
+		)
+#+end_src

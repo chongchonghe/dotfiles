@@ -1,0 +1,53 @@
+# -*- mode: snippet -*-
+#name : my latex template snippet (IOP)
+#key : iop_
+#contributor : Chong-Chong He
+# --
+\documentclass[12pt]{iopart}
+%\usepackage{CJKutf8}
+\newcommand{\gguide}{{\it Preparing graphics for IOP Publishing journals}}
+%Uncomment next line if AMS fonts required
+%\usepackage{iopams}
+\begin{document}
+
+\title[Short Title]{${1:Title}}
+
+\author{Chong-Chong He}
+
+\address{Department of Astronomy, University of Maryland, College Park, MD 20742-2421}
+\ead{che1234@umd.edu}
+\vspace{10pt}
+\begin{indented}
+%\item[]February 2014
+\item \today
+\end{indented}
+
+\begin{abstract}
+  Abstract here.
+\end{abstract}
+
+% Uncomment for PACS numbers
+%\pacs{00.00, 20.00, 42.10}
+%
+% Uncomment for keywords
+%\vspace{2pc}
+%\noindent{\it Keywords}: XXXXXX, YYYYYYYY, ZZZZZZZZZ
+%
+% Uncomment for Submitted to journal title message
+%\submitto{\JOPT}
+%
+% Uncomment if a separate title page is required
+%\maketitle
+%
+% For two-column output uncomment the next line and choose [10pt] rather than [12pt] in the \documentclass declaration
+%\ioptwocol
+%
+
+%\begin{CJK*}{UTF8}{gbsn}
+
+\section{Introduction}
+
+$0
+
+%\end{CJK*}
+\end{document}

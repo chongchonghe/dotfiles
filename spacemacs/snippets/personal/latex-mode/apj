@@ -1,0 +1,179 @@
+# -*- mode: snippet -*-
+#name : Template - ApJ
+#key : apj
+#contributor : Chong-Chong He
+# --
+%% Description: Single column, small font
+
+%% Beginning of file 'sample.tex'
+%%
+%% Modified 2015 December
+%%
+%% This is a sample manuscript marked up using the
+%% AASTeX v6.x LaTeX 2e macros.
+
+%% AASTeX is now based on Alexey Vikhlinin's emulateapj.cls
+%% (Copyright 2000-2015).  See the classfile for details.
+%%
+%% AASTeX requires revtex4-1.cls (http://publish.aps.org/revtex4/) and
+%% other external packages (latexsym, graphicx, amssymb, longtable, and epsf).
+%% All of these external packages should already be present in the modern TeX
+%% distributions.  If not they can also be obtained at www.ctan.org.
+
+%% The first piece of markup in an AASTeX v6.x document is the \documentclass
+%% command. LaTeX will ignore any data that comes before this command. The
+%% documentclass can take an optional argument to modify the output style.
+%% The command below calls the preprint style  which will produce a tightly
+%% typeset, one-column, single-spaced document.  It is the default and thus
+%% does not need to be explicitly stated.
+%%
+
+%% using aastex version 6
+\documentclass{aastex6}
+
+%% \documentclass[twocolumn]{aastex6}
+
+\usepackage{natbib}
+% These are the available options:
+%   manuscript	: onecolumn, doublespace, 12pt fonts
+%   preprint	: onecolumn, single space, 10pt fonts
+%   preprint2	: twocolumn, single space, 10pt fonts
+%   twocolumn	: a two column article. Probably not needed, but here just in case.
+%   onecolumn	: a one column article; default option.
+%   twocolappendix: make 2 column appendix
+%   onecolappendix: make 1 column appendix is the default.
+%   astrosymb	: Loads Astrosymb font and define \astrocommands.
+%   tighten	: Makes baselineskip slightly smaller
+%   times	: uses times font instead of the default
+%   linenumbers	: turn on lineno package.
+%   trackchanges : required to see the revision mark up and print output
+%   numberedappendix: Labels appendix sections A, B, ... This is the default.
+%   appendixfloats: Needed. Resets figure and table counters to zero
+
+%% these can be used in any combination, e.g.
+%%
+%% \documentclass[twocolumn,twocolappendix,linenumbers,trackchanges]{aastex6}
+
+%% If you want to create your own macros, you can do so
+%% using \newcommand. Your macros should appear before
+%% the \begin{document} command.
+%%
+\newcommand{\vdag}{(v)^\dagger}
+\newcommand\aastex{AAS\TeX}
+\newcommand\latex{La\TeX}
+
+%% AASTeX 6.0 supports the ability to suppress the names and affiliations
+%% of some authors and displaying them under a "collaboration" banner to
+%% minimize the amount of author information that to be printed.  This
+%% should be reserved for articles with an extreme number of authors.
+%%
+%% Mark up commands to limit the number of authors on the front page.
+\AuthorCallLimit=1
+%% Will only show Schwarz & Muench since Schwarz and Muench
+%% are in the same \author call.
+\fullcollaborationName{The Friends of AASTeX Collaboration}
+%% will print the collaboration text after the shortened author list.
+%% These commands have to COME BEFORE the \author calls.
+%%
+%% Note that all of these author will be shown in the published article.
+%% This feature is meant to be used prior to acceptance to make the
+%% front end of a long author article more manageable.
+%% Use \allauthors at the manuscript end to show the full author list.
+
+%% The following command can be used to set the latex table counters.  It
+%% is needed in this document because it uses a mix of latex tabular and
+%% AASTeX deluxetables.  In general it should not be needed.
+%\setcounter{table}{1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% The following commented section outlines numerous optional output that
+%% can be displayed in the front matter or as running meta-data.
+%%
+%% You can insert a short comment on the title page using the command below.
+%% \slugcomment{Not to appear in Nonlearned J., 45.}
+%%
+%% If you wish, you may supply running head information, although
+%% this information may be modified by the editorial offices.
+%%\shorttitle{\aastex sample article}
+%%\shortauthors{Schwarz et al.}
+%%
+%% You can add a light gray and diagonal water-mark to the first page
+%% with this command:
+%% \watermark{text}
+%% where "text", e.g. DRAFT, is the text to appear.  If the text is
+%% long you can control the water-mark size with:
+%% \setwatermarkfontsize{dimension}
+%% where dimension is any recognized LaTeX dimension, e.g. pt, in, etc.
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% This is the end of the preamble.  Indicate the beginning of the
+%% paper itself with \begin{document}.
+
+\begin{document}
+
+%% LaTeX will automatically break titles if they run longer than
+%% one line. However, you may use \\ to force a line break if
+%% you desire.
+
+\title[]{Title}
+
+%% Use \author, \affil, plus the \and command to format author and affiliation
+%% information.  If done correctly the peer review system will be able to
+%% automatically put the author and affiliation information from the manuscript
+%% and save the corresponding author the trouble of entering it by hand.
+%%
+%% The \affil should be used to document primary affiliations and the
+%% \altaffil should be used for secondary affiliations, titles, or email.
+
+%% Authors with the same affiliation can be grouped in a single
+%% \author and \affil call.
+\author{Chong-Chong He\altaffilmark{1}}
+\affil{Department of Astronomy, University of Maryland, College Park, MD 20742-2421}
+
+%\and
+%
+%\author{Butler Burton\altaffilmark{2}}
+%\affil{National Radio Astronomy Observatory}
+
+%% Notice that each of these authors has alternate affiliations, which
+%% are identified by the \altaffilmark after each name.  Specify alternate
+%% affiliation information with \altaffiltext, with one command per each
+%% affiliation.
+
+%% Mark off the abstract in the ``abstract'' environment.
+\begin{abstract}
+abstract here. ss
+\end{abstract}
+
+%\keywords{}
+
+%% From the front matter, we move on to the body of the paper.
+%% Sections are demarcated by \section and \subsection, respectively.
+%% Observe the use of the LaTeX \label
+%% command after the \subsection to give a symbolic KEY to the
+%% subsection for cross-referencing in a \ref command.
+%% You can use LaTeX's \ref and \label commands to keep track of
+%% cross-references to sections, equations, tables, and figures.
+%% That way, if you change the order of any elements, LaTeX will
+%% automatically renumber them.
+
+%% We recommend that authors also use the natbib \citep
+%% and \citet commands to identify citations.  The citations are
+%% tied to the reference list via symbolic KEYs. The KEY corresponds
+%% to the KEY in the \bibitem in the reference list below.
+
+\section{Introduction}
+
+\subsection{subsection}
+
+
+%% Include this line if you are using the \added, \replaced, \deleted
+%% commands to see a summary list of all changes at the end of the article.
+%\listofchanges
+\bibliographystyle{plain}
+\bibliography{}
+\end{document}
+
+%% End of file `sample.tex'.

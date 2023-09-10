@@ -45,7 +45,8 @@ nnoremap m :cpr<space>
 " nnoremap b :bmgo<space>
 command! o :execute 'cd' system('python3 ${MOVE_ROOT}/getdir_with_quote.py %a 2> /dev/null')
 nnoremap o :o<space>
-command! moveadd !o + %a %d
+" command! add !o + %a %d
+command! add ![[ ! -z ${MOVE_ROOT} ]] && ${MOVE_ROOT}/mOve add %a %d || echo "MOVE_ROOT is not defined"
 nnoremap r :!!
 command! clmake make clean && make
 command! nbconvert !/Users/chongchonghe/anaconda3/bin/jupyter nbconvert --to html %c
@@ -70,6 +71,7 @@ command! j :execute 'cd' system('autojump %a 2> /dev/null')
 command! df df -h %m 2> /dev/null
 command! diff vim -d %f %F
 command! dif !diff %f %F
+command! diffrq !diff %f %F
 command! kittydiff kitty +kitten diff %f %F
 command! zip zip -r %f.zip %f
 command! run !! ./%f
@@ -85,13 +87,14 @@ command! backupnotion !backupnotion %c
 command! nemo !glnemo2 %c
 command! tail !tail -f %c
 command! merge !pdfunite ./*.pdf merge.pdf
-command! texcl !texcl
+command! texcl !texcl2
 command! code !code .
-command! codediff !code -d %f %F
+command! codedif !code -d %f %F
 command! mvdown !sh ${HOME}/local/bin/mv_newest_in_downloads_here.sh
 command! talkmd !talkmd %a
 command! rmsp !remove_space %c
-command! mkproj !mkproj %a
+command! mkproj !mkproj .
+command! texpad !open -a texpad.app %c
 
 ca tn tabnew
 ca tc tabclose
@@ -360,9 +363,9 @@ nnoremap ,c :write | edit $MYVIFMRC | restart<cr>
 " The %a macro is ignored.  To use a % you must put %%.
 
 fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm
-    \ kitty +icat --place %pwx%ph@%pxx%py  --silent %c
+    \ kitty icat --transfer-mode=file --place=%pwx%ph@%pxx%py %c
     \ %pc
-    \ kitty icat --clear --silent %pd
+    \ kitty icat --transfer-mode=file --clear
 
 fileviewer *.pdf
     " \ tput cup %py %px > /dev/tty && sips -s format jpeg %c --out /tmp/tempfile.jpg > /dev/null&& kitty +icat --place %pwx%ph@%pxx%py --silent /tmp/tempfile.jpg

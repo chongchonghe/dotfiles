@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: html_
+# key: html
+# --
+{{< rawhtml >}}
+$0
+{{< /rawhtml >}}

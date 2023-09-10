@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: bash_long
+# key: shlong
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# --
+#+BEGIN_SRC sh :shebang #!/bin/zsh -i :results output pp
+$0
+#+END_SRC

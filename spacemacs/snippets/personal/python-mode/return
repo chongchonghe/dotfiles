@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+#name : return
+#key : ret_
+#contributor : Chong-Chong He
+# --
+Return
+------
+    ${1:Param}: ${2:Type}

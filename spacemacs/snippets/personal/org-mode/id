@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: ID
+# key: id
+# --
+:PROPERTIES:
+:CUSTOM_ID: $0
+:END:

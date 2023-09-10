@@ -1,0 +1,471 @@
+#+TITLE: ChongChong's Emacs configuration file
+#+AUTHOR: Chong-Chong He
+#+STARTUP: overview
+#+BABEL: :cache yes
+#+PROPERTY: header-args :tangle yes
+
+* Packages
+
+#+BEGIN_SRC emacs-lisp
+  (require 'package)
+  (setq package-archives
+        '(("melpa" . "https://melpa.org/packages/")
+          ("gnu" . "https://elpa.gnu.org/packages/")
+          ("org" . "http://orgmode.org/elpa/")))
+  ;;(require 'popwin)
+
+  (add-to-list 'package-archives
+               '("MELPA Stable" . "https://stable.melpa.org/packages/") t)
+  (add-to-list 'package-archives
+               '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+
+  (add-to-list 'load-path "~/.emacs.d/pkgs")
+
+  (package-initialize)
+  (when (not package-archive-contents)
+    (package-refresh-contents))
+
+  (defvar myPackages
+    '(better-defaults
+      ein
+      elpy
+      flycheck
+      spolky
+      ;; py-autopep8
+      ))
+
+  ;; This is only needed once, near the top of the file
+  (eval-when-compile
+    ;; Following line is not needed if use-package.el is in ~/.emacs.d
+    (add-to-list 'load-path "../.emacs.d/elpa")
+    (require 'use-package))
+#+END_SRC
+
+
+* General config 
+
+#+BEGIN_SRC emacs-lisp
+  ;; "General setup, just copy and paste"
+
+  (setq inhibit-startup-message t) ;; hide the startup message
+  ;; remove backup files (e.g. README.md~)
+  (setq make-backup-files nil)
+  ;; prevent pop-up window "Async Shell Command" when doing pdf->tex sync
+  ;; (setq pop-up-windows nil)
+  ;; (call-process-shell-command "okular&" nil 0)
+  (add-to-list 'display-buffer-alist
+               (cons "\\*Async Shell Command\\*.*" (cons #'display-buffer-no-window nil)))
+  (global-linum-mode t) ;; enable line numbers globally
+  ;; Use cmd key for meta
+  ;; https://superuser.com/questions/297259/set-emacs-meta-key-to-be-the-mac-key
+  (setq mac-option-key-is-meta nil
+        mac-command-key-is-meta t
+        mac-command-modifier 'meta
+        mac-option-modifier 'none)
+  ;; (global-linum-mode t) ;; enable line numbers globally
+  ;; (add-hook 'prog-mode-hook 'column-number-mode)
+  ;; (add-hook 'prog-mode-hook 'linum-mode) ;; enable (line number, col number)
+  (windmove-default-keybindings)          ;; e.g. Shift-arrow to swith windows
+  ;; make swithing windows easier
+  ;; (global-set-key (kbd "C-x p") (kbd "C-- C-x o"))
+  ;; (global-set-key (kbd "C-x n") (kbd "C-x o"))
+  (global-set-key (kbd "M-p") (kbd "C-- C-x o"))
+  (global-set-key (kbd "M-n") (kbd "C-x o"))
+  (global-set-key (kbd "M-j") 'windmove-down)
+  (global-set-key (kbd "M-k") 'windmove-up)
+  (global-set-key (kbd "M-h") 'windmove-left)
+  (global-set-key (kbd "M-l") 'windmove-right)
+  ;; (global-unset-key (kbd "C-x C-c"))
+  ;; (global-unset-key (kbd "M-v"))
+  (global-set-key (kbd "M-v") 'evil-paste-after)
+  ;; Auto fill mode
+  (setq default-fill-column 80)
+  ;; (add-hook 'text-mode-hook 'turn-on-auto-fill)
+  ;; Turn off auto-fill-mode in markdown
+  (defun my-markdown-mode-hook ()
+    (auto-fill-mode 0))                   ; turn off auto-filling
+  (add-hook 'markdown-mode-hook 'my-markdown-mode-hook)
+  ;;(popwin-mode 1)
+  ;; Method two: use emacs default
+  (setq-default
+   ;; Column Marker at 80
+   whitespace-line-column 80
+   whitespace-style       '(face lines-tail))
+  (add-hook 'prog-mode-hook #'whitespace-mode)
+  ;; dumb-jump
+  (dumb-jump-mode)
+  (global-set-key (kbd "C-M-o") 'dumb-jump-go)
+  ;; Auto revert mode
+  (global-auto-revert-mode 1)
+  ;; kill/copy whole line
+  (defun slick-cut (beg end)
+    (interactive
+     (if mark-active
+         (list (region-beginning) (region-end))
+       (list (line-beginning-position) (line-beginning-position 2)))))
+  (advice-add 'kill-region :before #'slick-cut)
+  (defun slick-copy (beg end)
+    (interactive
+     (if mark-active
+         (list (region-beginning) (region-end))
+       (message "Copied line")
+       (list (line-beginning-position) (line-beginning-position 2)))))
+  (advice-add 'kill-ring-save :before #'slick-copy)
+  ;; Indentation
+  ;;(setq-default indent-tabs-mode nil)
+  (setq tab-width 4)
+  ;; (global-set-key (kbd "C-c c") 'compile)
+  (global-set-key (kbd "C-c r") 'compile)
+  (global-set-key (kbd "C-c m") 'recompile)
+  ;; (require 'insert-time)
+  ;; (define-key global-map [(control c)(d)] 'insert-date-time)
+  ;; (define-key global-map [(control c)(control v)(d)] 'insert-personal-time-stamp)
+  ;; Ref: https://stackoverflow.com/questions/384284/how-do-i-rename-an-open-file-in-emacs
+  ;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
+  (defun rename-file-and-buffer (new-name)
+    "Renames both current buffer and file it's visiting to NEW-NAME."
+    (interactive "sNew name: ")
+    (let ((name (buffer-name))
+          (filename (buffer-file-name)))
+      (if (not filename)
+          (message "Buffer '%s' is not visiting a file!" name)
+        (if (get-buffer new-name)
+            (message "A buffer named '%s' already exists!" new-name)
+          (progn
+            (rename-file filename new-name 1)
+            (rename-buffer new-name)
+            (set-visited-file-name new-name)
+            (set-buffer-modified-p nil))))))
+  ;; https://emacsredux.com/blog/2013/05/18/instant-access-to-init-dot-el/
+  (defun er-find-user-init-file ()
+    "Edit the `user-init-file', in another window."
+    (interactive)
+    ;; (find-file-other-window user-init-file)
+    (find-file user-init-file)
+    )
+  (global-set-key (kbd "C-c i") (lambda() (interactive)(find-file "~/.emacs.d/init.org")))
+
+  ;; set encoding
+  (set-language-environment "UTF-8")
+  (set-default-coding-systems 'utf-8)
+  (set-buffer-file-coding-system 'utf-8-unix)
+  (set-clipboard-coding-system 'utf-8-unix)
+  (set-file-name-coding-system 'utf-8-unix)
+  (set-keyboard-coding-system 'utf-8-unix)
+  (set-next-selection-coding-system 'utf-8-unix)
+  (set-selection-coding-system 'utf-8-unix)
+  (set-terminal-coding-system 'utf-8-unix)
+  (setq locale-coding-system 'utf-8)
+  (prefer-coding-system 'utf-8)
+#+END_SRC
+
+
+
+* Other configs
+
+#+BEGIN_SRC emacs-lisp
+
+
+(defun my-theme-config ()
+  ;; Customize solarized-light theme
+  
+  ;; make the fringe stand out from the background
+  (setq solarized-distinct-fringe-background t)
+  
+  ;; Don't change the font for some headings and titles
+  (setq solarized-use-variable-pitch nil)
+  
+  ;; make the modeline high contrast
+  (setq solarized-high-contrast-mode-line t)
+  
+  ;; Use less bolding
+  (setq solarized-use-less-bold t)
+  
+  ;; Use more italics
+  (setq solarized-use-more-italic t)
+  
+  ;; Use less colors for indicators such as git:gutter, flycheck and similar
+  (setq solarized-emphasize-indicators nil)
+  
+  ;; Don't change size of org-mode headlines (but keep other size-changes)
+  (setq solarized-scale-org-headlines nil)
+  
+  ;; Avoid all font-size changes
+  ;; (setq solarized-height-minus-1 1.0)
+  ;; (setq solarized-height-plus-1 1.0)
+  ;; (setq solarized-height-plus-2 1.0)
+  ;; (setq solarized-height-plus-3 1.0)
+  ;; (setq solarized-height-plus-4 1.0)
+  
+  ;; (load-theme 'solarized-light t)
+  (load-theme 'gruvbox t)
+  
+  ;; ---------------------------------------------------------------
+  ;; (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+  ;; (load-theme 'spolsky t)
+  ;; (set-face-attribute 'default nil :font "SF Mono 12")
+  ;; (set-face-attribute 'default nil :font "Source Code Pro 14")
+  ;; set font size
+  ;; (set-face-attribute 'default (selected-frame) :height 150)
+  (set-face-attribute 'default nil :height 150)
+  
+  ;;; right 2/3, two columns
+					;(set-face-attribute 'default (selected-frame) :height 122)
+					;(add-to-list 'default-frame-alist '(height . 71))
+					;(add-to-list 'default-frame-alist '(width . 177))
+					;(add-to-list 'default-frame-alist '(left . 784))
+					;(add-to-list 'default-frame-alist '(top . 0))
+  
+  ;; center, large, two columns
+  ;; (set-face-attribute 'default (selected-frame) :height 122)
+  (add-to-list 'default-frame-alist '(height . 68))
+  (add-to-list 'default-frame-alist '(width . 180))
+					;(add-to-list 'default-frame-alist '(left . (- 0)))
+  (add-to-list 'default-frame-alist '(right . 0))
+  (add-to-list 'default-frame-alist '(top . 0))
+  
+  ;; Customed theme, be careful. Just copy and paste
+  ;; ---------------------------------------------------------------
+  ;; (custom-set-faces
+  ;;  ;; custom-set-faces was added by Custom.
+  ;;  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;;  ;; Your init file should contain only one such instance.
+  ;;  ;; If there is more than one, they won't work right.
+  ;;  '(default ((t (:inherit nil :stipple nil :background "#dcc7b4" :foreground "#1e1e1e" :vertical-boarder "#1e1e1e" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 274 :width normal :foundry "nil" :family "MONACO")))))
+  
+  ;; :background "#dcc7b4" :foreground "#1e1e1e"
+  
+  ;;  :background "#D4A984" :foreground "#38302B"
+  
+  ;; https://stackoverflow.com/questions/52521587/emacs-error-when-i-call-it-in-the-terminal
+  ;;(delete-file "~/Library/Colors/Unnamed 3.clr")
+  )
+
+  ;;;; Enable all the configs
+;; (my-general-config)
+;; (my-evil-config)
+;; (my-neotree-config)
+;; (my-flyspell-config)
+(my-python-config)
+;; (my-hs-config)
+;; (my-folding-mode-config)
+(my-latex-config)
+(my-html-config)
+;; (my-mu4e-config)
+(my-CC++-config)
+(my-fortran-config)
+(my-julia-config)
+(my-theme-config)
+(my-langtool-config)
+
+(defun test02 ()
+  (global-set-key (kbd "<f8>") 'back-to-indentation)
+  )
+(test02)
+
+#+END_SRC
+
+
+* Org
+
+** org-ref
+
+#+BEGIN_SRC emacs-lisp
+  (setq reftex-default-bibliography '("~/Academics/Bib/He-StarCluster.bib"))
+
+  ;; see org-ref for use of these variables
+  (setq org-ref-bibliography-notes "~/Dropbox/bibliography/notes.org"
+        org-ref-default-bibliography '("~/Academics/Bib/He-StarCluster.bib")
+        org-ref-pdf-directory "~/Academics/papers/_org-ref/")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (setq bibtex-completion-bibliography "~/Academics/Bib/He-StarCluster.bib"
+        bibtex-completion-library-path "~/Academics/papers/_org-ref/"
+        bibtex-completion-notes-path "~/Dropbox/orfiles/helm-bibtex-notes")
+
+  ;; open pdf with system pdf viewer (works on mac)
+  (setq bibtex-completion-pdf-open-function
+    (lambda (fpath)
+      (start-process "open" "*open*" "open" fpath)))
+
+  ;; alternative
+  ;; (setq bibtex-completion-pdf-open-function 'org-open-file)
+#+END_SRC
+
+** org export
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-use-sub-superscripts '{})
+#+END_SRC
+
+*** Embed movie
+
+Use org-links to embed local video. Adapted from this method:
+http://endlessparentheses.com/embedding-youtube-videos-with-org-mode-links.html
+~[[mv:movie.mp4]]~ will export a html5 video.
+
+#+BEGIN_SRC emacs-lisp
+  (defvar mv-iframe-format
+    ;; You may want to change your width and height.
+    (concat "<video"
+            " height=\"500\""
+            " style=\"display:block; margin: 0 auto;\" controls>"
+            " <source"
+            " src=\"%s\""
+            " type=\"video/mp4\">"
+            "</video>"))
+
+  (org-add-link-type
+   "mv"
+   (lambda (handle)
+     (browse-url
+      (concat "https://www.youtube.com/embed/"
+              handle)))
+   (lambda (path desc backend)
+     (cl-case backend
+       (html (format mv-iframe-format
+                     path (or desc "")))
+       (latex (format "\href{%s}{%s}"
+                      path (or desc "video"))))))
+#+END_SRC
+
+** Others
+
+(Not working) Indent code in org babel src blocks: (from
+https://stackoverflow.com/questions/15773354/indent-code-in-org-babel-src-blocks)
+
+#+BEGIN_SRC emacs-lisp
+(setq org-src-tab-acts-natively t)
+#+END_SRC
+
+* Theme
+
+#+BEGIN_SRC emacs-lisp
+  ;; (custom-set-variables
+  ;;  ;; custom-set-variables was added by Custom.
+  ;;  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;;  ;; Your init file should contain only one such instance.
+  ;;  ;; If there is more than one, they won't work right.
+  ;;  '(LaTeX-indent-environment-list
+  ;;    (quote
+  ;;     (("verbatim" current-indentation)
+  ;;      ("verbatim*" current-indentation)
+  ;;      ("tabular")
+  ;;      ("tabular*")
+  ;;      ("align")
+  ;;      ("align*")
+  ;;      ("array")
+  ;;      ("eqnarray")
+  ;;      ("eqnarray*")
+  ;;      ("displaymath")
+  ;;      ("equation")
+  ;;      ("equation*")
+  ;;      ("picture")
+  ;;      ("tabbing"))))
+  ;;  '(TeX-source-correlate-method (quote synctex))
+  ;;  '(TeX-source-correlate-mode t)
+  ;;  '(auto-insert (quote other))
+  ;;  ;; '(auto-insert-alist (quote nil))
+  ;;  '(custom-safe-themes
+  ;;    (quote
+  ;;     ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
+  ;;  '(org-startup-truncated nil)
+  ;;  '(package-selected-packages
+  ;;    (quote
+  ;;     (org gruvbox-theme magit mu4e-alert helm solarized-theme htmlize ein jedi key-chord popwin yasnippet goto-last-change evil auctex evil-visual-mark-mode markdown-mode flycheck neotree elpy)))
+  ;;  '(send-mail-function (quote mailclient-send-it)))
+
+  ;; (custom-set-variables
+  ;;  ;; custom-set-variables was added by Custom.
+  ;;  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;;  ;; Your init file should contain only one such instance.
+  ;;  ;; If there is more than one, they won't work right.
+  ;;  '(TeX-source-correlate-method (quote synctex))
+  ;;  '(TeX-source-correlate-mode t)
+  ;;  '(auto-insert (quote other))
+  ;;  '(auto-insert-alist (quote nil))
+  ;;  '(auto-insert-directory "~/.emacs.d/snippets/auto_insert")
+  ;;  '(custom-safe-themes
+  ;;    (quote
+  ;;     ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
+  ;;  '(org-startup-truncated nil)
+  ;;  '(package-selected-packages
+  ;;    (quote
+  ;;     (solarized-theme htmlize ein jedi key-chord popwin yasnippet goto-last-change evil auctex evil-visual-mark-mode markdown-mode flycheck neotree elpy)))
+  ;;  '(send-mail-function (quote mailclient-send-it)))
+
+  ;; ;; Auto insert mode
+  ;; (require 'autoinsert)
+  ;; (auto-insert-mode)
+  ;; (setq auto-insert-directory "~/.emacs.d/snippets/auto_insert")
+  ;; ;; (setq auto-insert-query nil) ;;; If you don't want to be prompted before insertion
+  ;; (define-auto-insert "\.py" "template.py")
+
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(LaTeX-indent-environment-list
+     (quote
+      (("verbatim" current-indentation)
+       ("verbatim*" current-indentation)
+       ("tabular")
+       ("tabular*")
+       ("align")
+       ("align*")
+       ("array")
+       ("eqnarray")
+       ("eqnarray*")
+       ("displaymath")
+       ("equation")
+       ("equation*")
+       ("picture")
+       ("tabbing"))))
+   '(TeX-source-correlate-method (quote synctex))
+   '(TeX-source-correlate-mode t)
+   '(custom-safe-themes
+     (quote
+      ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
+   '(org-export-backends (quote (ascii beamer html icalendar latex man md odt)))
+   '(org-startup-truncated nil)
+   '(package-selected-packages
+     (quote
+      (langtool mu4e-maildirs-extension vimrc-mode julia-mode org gruvbox-theme magit mu4e-alert helm solarized-theme htmlize ein jedi key-chord popwin yasnippet goto-last-change evil auctex evil-visual-mark-mode markdown-mode flycheck neotree elpy)))
+   '(send-mail-function (quote mailclient-send-it)))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   )
+#+END_SRC
+
+
+* Latex
+
+** Config
+
+Beginning of use-package:
+
+Avoid pop-up of *Async Shell Command* buffer in Emacs when syncing from PDF to emacs.
+Ref: https://stackoverflow.com/questions/13901955/how-to-avoid-pop-up-of-async-shell-command-buffer-in-emacs
+
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list
+   'display-buffer-alist
+   (cons "\\*Async Shell Command\\*.*" (cons #'display-buffer-no-window nil)))
+  ;; not working
+  (call-process-shell-command "osascript&" nil 0)
+#+end_src
+
+Auto-raise Emacs on activation: https://sourceforge.net/p/skim-app/wiki/TeX_and_PDF_Synchronization/
+
+#+begin_src emacs-lisp :tangle yes
+  (defun raise-emacs-on-aqua()
+    (shell-command "osascript -e 'tell application \"Emacs\" to activate' &"))
+  (add-hook 'server-switch-hook 'raise-emacs-on-aqua)
+#+end_src
+
+

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: python2
+# key: python
+# --
+#+begin_src python :results output pp :exports both :session b
+$0
+#+end_src

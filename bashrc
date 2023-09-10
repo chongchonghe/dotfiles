@@ -15,6 +15,7 @@ function pathp () {
 alias ls="ls -GFh --color=auto"
 alias lt="ls -GFhltr --color=auto"
 alias ll="ls -GFhl --color=auto"
+alias le="less -R"
 alias ipythonpy="ipython --pylab"
 # alias lt="ls -ltrh --color=auto" # linux
 alias cctest="echo Yes sharerc is sourced"

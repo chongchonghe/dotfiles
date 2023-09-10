@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: julia-comment-string
+# key: ""
+# --
+""" $0 """
