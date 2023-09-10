@@ -1,5 +1,30 @@
 #+title: Init file shared among various version of Emacs
 
+* Spacemacs user-config
+
+#+begin_src emacs-lisp :tangle yes
+  ;; (spacemacs/disable-auto-evilification 'org-agenda-mode)
+
+  ;; ;; ;; Use cmd key for meta
+  ;; ;; ;; https://superuser.com/questions/297259/set-emacs-meta-key-to-be-the-mac-key
+  ;; (setq mac-option-key-is-meta t
+  ;;       mac-command-key-is-meta nil
+  ;;       mac-command-modifier 'super
+  ;;       mac-option-modifier 'meta)
+
+  ;; LaTeX, macOS specific
+  (setq latex-view-with-pdf-tools nil)
+  (setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
+  (setq TeX-view-program-list
+        '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b")))
+
+  ;; set word wrap to t
+  (setq-default word-wrap t)
+
+  ;; open file under cursor
+  (global-set-key (kbd "C-c o") 'ffap)
+#+end_src
+
 * Basics
 
 Auto fill? No!
