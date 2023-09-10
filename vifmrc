@@ -26,8 +26,8 @@ nnoremap E :edit<cr>
 " absolute link
 command! lna ln -s %F 
 " relative link
-command! ln ln -s `realpath --relative-to="." %F`
-" command! ln ln -s %d/%f %D
+" command! ln ln -s `realpath --relative-to="." %F`
+command! ln ln -s %d/%f %D
 command! en emacsclient -n %c
 command! dup cp %c %c.copy
 command! ll !!ls -l
@@ -87,6 +87,7 @@ command! tail !tail -f %c
 command! merge !pdfunite ./*.pdf merge.pdf
 command! texcl !texcl
 command! code !code .
+command! codediff !code -d %f %F
 command! mvdown !sh ${HOME}/local/bin/mv_newest_in_downloads_here.sh
 command! talkmd !talkmd %a
 command! rmsp !remove_space %c

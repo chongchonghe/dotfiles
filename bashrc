@@ -60,6 +60,7 @@ alias my-rsync="rsync -lhrtu"
 alias my-rsync-bar="rsync -lhrtu --info=progress2"
 alias my-rsyncL="rsync -Lhrtu"
 alias my-rsyncL-bar="rsync -Lhrtu --info=progress2"
+alias ch="cheat"
 
 ### set vi mode
 set -o emacs
