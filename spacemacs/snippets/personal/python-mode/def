@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+#name : def
+#key : def_
+#contributor : MATSUBARA Naoya
+#contributor : Chong-Chong He
+# --
+def ${1:function}(${2:args}):
+    """${3:short description}
+
+    ${4:Parameters
+    ----------
+    ${5:Type "par<TAB>"}
+
+    Returns
+    -------
+    ${6:Type}: ${7:Description}
+    }"""

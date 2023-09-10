@@ -1,0 +1,10 @@
+#+bibliography: ref.bib
+#+cite_export: csl /Users/chongchonghe/dotfiles/emacs/packages/csl-styles/apa-tr.csl
+
+Here is a citation: [cite:@Casassus2015]
+- [cite/l/f:@Casassus2015]
+- [cite/l/:@Casassus2015]
+- [cite:@Casassus2015]
+- [cite:@Casassus2015]
+
+#+print_bibliography:

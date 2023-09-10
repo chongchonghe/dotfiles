@@ -45,7 +45,8 @@ nnoremap m :cpr<space>
 " nnoremap b :bmgo<space>
 command! o :execute 'cd' system('python3 ${MOVE_ROOT}/getdir_with_quote.py %a 2> /dev/null')
 nnoremap o :o<space>
-command! add !o + %a %d
+" command! add !o + %a %d
+command! add ![[ ! -z ${MOVE_ROOT} ]] && ${MOVE_ROOT}/mOve add %a %d || echo "MOVE_ROOT is not defined"
 nnoremap r :!!
 command! clmake make clean && make
 command! nbconvert !/Users/chongchonghe/anaconda3/bin/jupyter nbconvert --to html %c
@@ -88,6 +89,7 @@ command! tail !tail -f %c
 command! merge !pdfunite ./*.pdf merge.pdf
 command! texcl !texcl2
 command! code !code .
+command! codedif !code -d %f %F
 command! mvdown !sh ${HOME}/local/bin/mv_newest_in_downloads_here.sh
 command! talkmd !talkmd %a
 command! rmsp !remove_space %c

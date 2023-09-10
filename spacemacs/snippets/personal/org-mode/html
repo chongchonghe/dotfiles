@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: html_
+# key: html
+# --
+#+begin_export html
+$0
+#+end_export

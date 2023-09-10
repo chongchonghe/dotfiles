@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: journal
+# key: jour
+# --
+`(format-time-string "%Y-%m-%d %a")`$0
+
+- To-do today (Check Apple Calendar and org-mode calendar)
+
+	  - $0
+
+- Completed today
+
+- Notes
+
+- News

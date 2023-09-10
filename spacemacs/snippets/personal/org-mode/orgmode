@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: orgmode
+# key: org
+# --
+#+begin_src org
+$0
+#+end_src

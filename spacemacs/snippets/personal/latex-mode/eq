@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: equationref
+# key: equ
+# --
+Eq.~($0)

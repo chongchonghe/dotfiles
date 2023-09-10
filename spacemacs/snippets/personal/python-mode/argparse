@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: parse_args_user
+# key: argparse
+# group: argparser
+# --
+import argparse
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='$1')
+    parser.add_argument(dest='$0', type=str, help="A string argument")
+    return parser.parse_args()

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: citep
+# key: cp
+# --
+\citep[$1][$2]{$3}$0

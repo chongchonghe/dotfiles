@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: centering
+# key: cen
+# --
+\centering $0

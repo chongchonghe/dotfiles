@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: width_
+# key: width
+# --
+#+attr_html: :width $0pt

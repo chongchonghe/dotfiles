@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+#name : block comments
+#key : #{
+#contributor : MATSUBARA Naoya
+#contributor : Chong-Chong He
+# --
+# {{{ ${1:Description}
+$0
+# }}}

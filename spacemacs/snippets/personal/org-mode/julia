@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: ipythonhaha
+# key: jl
+# --
+#+begin_src julia :results output
+$0
+#+end_src

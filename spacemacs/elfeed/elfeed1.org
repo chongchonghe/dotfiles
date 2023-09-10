@@ -1,0 +1,5 @@
+* Arxiv                                                              :elfeed:
+** [[http://export.arxiv.org/api/query?search_query=cat:astro-ph.GA&start=0&max_results=300&sortBy=submittedDate&sortOrder=descending][astro-ph.GA]] :research:
+** [[http://export.arxiv.org/api/query?search_query=cat:astro-ph.SR&start=0&max_results=500&sortBy=submittedDate&sortOrder=descending][astro-ph.SR]]
+
+# ** [[http://export.arxiv.org/api/query?search_query=cat:"astro-ph.CO"&start=0&max_results=300&sortBy=submittedDate&sortOrder=descending][astro-ph.CO]]

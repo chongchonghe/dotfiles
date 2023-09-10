@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: hyperref
+# key: hyp
+# --
+\hyperref[${1:label}]{${2:text}}$0

@@ -15,6 +15,7 @@ function pathp () {
 alias ls="ls -GFh --color=auto"
 alias lt="ls -GFhltr --color=auto"
 alias ll="ls -GFhl --color=auto"
+alias le="less -R"
 alias ipythonpy="ipython --pylab"
 # alias lt="ls -ltrh --color=auto" # linux
 alias cctest="echo Yes sharerc is sourced"
@@ -60,6 +61,7 @@ alias my-rsync="rsync -lhrtu"
 alias my-rsync-bar="rsync -lhrtu --info=progress2"
 alias my-rsyncL="rsync -Lhrtu"
 alias my-rsyncL-bar="rsync -Lhrtu --info=progress2"
+alias ch="cheat"
 
 ### set vi mode
 set -o emacs

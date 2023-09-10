@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: project
+# key: proj
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# --
+- Directory: $0
+- Results:
+  - Figures: 
+  - Writeup:
+- More info:
