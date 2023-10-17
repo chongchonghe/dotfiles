@@ -1,3 +1,25 @@
+;; (spacemacs/disable-auto-evilification 'org-agenda-mode)
+
+;; ;; ;; Use cmd key for meta
+;; ;; ;; https://superuser.com/questions/297259/set-emacs-meta-key-to-be-the-mac-key
+;; (setq mac-option-key-is-meta t
+;;       mac-command-key-is-meta nil
+;;       mac-command-modifier 'super
+;;       mac-option-modifier 'meta)
+;; (setq mac-command-modifier 'super)
+
+;; LaTeX, macOS specific
+(setq latex-view-with-pdf-tools nil)
+(setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
+(setq TeX-view-program-list
+      '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b")))
+
+;; set word wrap to t
+(setq-default word-wrap t)
+
+;; open file under cursor
+(global-set-key (kbd "C-c o") 'ffap)
+
 ;; (add-hook 'org-mode-hook 'turn-on-auto-fill)
 (auto-fill-mode -1)
 (remove-hook 'text-mode-hook #'turn-on-auto-fill)
@@ -42,7 +64,7 @@
 ;; (setq auto-completion-private-snippets-directory "/startrek/chongchong/emacs-dotfile/shared/snippets/personal")
 ;; (setq yas-snippet-dirs (append yas-snippet-dirs '("/startrek/chongchong/emacs-dotfile/shared/snippets/personal")))
 ;; (setq auto-completion-private-snippets-directory "~/emacs-dotfile/shared/snippets/personal")
-(setq yas-snippet-dirs (append yas-snippet-dirs '("~/dotfiles/spacemacs/snippets/personal")))
+(setq yas-snippet-dirs (append yas-snippet-dirs '("~/emacs-dotfile/shared/snippets/personal")))
 (yas-reload-all)
 
 (defun python-args-to-google-docstring (text &optional make-fields)
@@ -114,21 +136,6 @@
             (setq indent-tabs-mode t)
             (setq tab-width 4)
             (setq indent-line-function 'insert-tab)))
-
-;; accept completion from copilot and fallback to company
-
-(with-eval-after-load 'company
-  ;; disable inline previews
-  (delq 'company-preview-if-just-one-frontend company-frontends))
-
-(with-eval-after-load 'copilot
-  (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-  (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion))
-
-(add-hook 'prog-mode-hook 'copilot-mode)
-
-(define-key evil-insert-state-map (kbd "C-<tab>") 'copilot-accept-completion-by-word)
-(define-key evil-insert-state-map (kbd "C-TAB") 'copilot-accept-completion-by-word)
 
 (evil-define-key 'visual evil-surround-mode-map "s" 'evil-substitute)
 (evil-define-key 'visual evil-surround-mode-map "S" 'evil-surround-region)

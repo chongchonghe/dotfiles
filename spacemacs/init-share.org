@@ -11,6 +11,7 @@
   ;;       mac-command-key-is-meta nil
   ;;       mac-command-modifier 'super
   ;;       mac-option-modifier 'meta)
+  ;; (setq mac-command-modifier 'super)
 
   ;; LaTeX, macOS specific
   (setq latex-view-with-pdf-tools nil)
@@ -239,7 +240,7 @@ Source: https://emacs.stackexchange.com/a/34085
 
 * Copilot
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
   ;; accept completion from copilot and fallback to company
 
   (with-eval-after-load 'company

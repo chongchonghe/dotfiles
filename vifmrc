@@ -26,8 +26,8 @@ nnoremap E :edit<cr>
 " absolute link
 command! lna ln -s %F 
 " relative link
-" command! ln ln -s `realpath --relative-to="." %F`
-command! ln ln -s %d/%f %D
+command! ln ln -s `grealpath --relative-to="." %F`
+" command! ln ln -s %d/%f %D
 command! en emacsclient -n %c
 command! dup cp %c %c.copy
 command! ll !!ls -l
@@ -41,7 +41,7 @@ command! subl !subl %c
 command! cdo :execute 'cd' '%D'
 " copy a file from clipboard with relative path to the other window directory
 command! cpr !cp -i %d/%a %D
-nnoremap m :cpr<space>
+" nnoremap m :cpr<space>
 " nnoremap b :bmgo<space>
 command! o :execute 'cd' system('python3 ${MOVE_ROOT}/getdir_with_quote.py %a 2> /dev/null')
 nnoremap o :o<space>
@@ -103,7 +103,6 @@ ca mc make clean
 ca mk make
 ca mm marked
 ca md mkdir
-ca a cpr
 
 "set find=find . -name=$1
 "set findprg="find %s %a -print , -type d \( ! -readable -o ! -executable \) -prune"
@@ -405,6 +404,8 @@ if $OS == 'Darwin'
     " Yank current file path (relative to the directory in the other window) as
     " markdown format into the clipboard
     nnoremap ym :!md-local-image %f %D<cr>
+
+    fileviewer */ tree -L 1 -I .git %c
 
     " FtpMount: not working
     filetype *.ftp
