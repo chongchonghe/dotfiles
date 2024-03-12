@@ -393,7 +393,7 @@ if $OS == 'Darwin'
     " markdown format into the clipboard
     nnoremap ym :!md-local-image %f %D<cr>
 
-    fileviewer */ tree -L 1 -I .git %c
+    " fileviewer */ tree -L 1 -I .git %c
 
     " FtpMount: not working
     filetype *.ftp
