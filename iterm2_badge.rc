@@ -1,0 +1,14 @@
+function iterm2_print_user_vars() {
+  iterm2_set_user_var gitDiff $(is_git_branch_dirty)
+}
+
+function is_git_branch_dirty {
+    # if is inside a git repo
+    if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+			if [[ $(git diff --shortstat 2> /dev/null | tail -n1) != "" ]]; then
+				echo "⚡⚡"
+			else
+				echo "😎"
+			fi
+    fi
+}

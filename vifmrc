@@ -20,6 +20,9 @@
 " %m run the command in a menu window
 " ------------------------------------------------------------------------------
 
+" command! runit ./test_radhydro_pulse_MG_int ../RadhydroPulse512.in &> log.o &
+command! runit ./test_radhydro_pulse_MG_int ./RadhydroPulse.in &> log.o &
+
 " map E to edit (e is preview)
 nnoremap E :edit<cr>
 " command! ln ln -s %f:p %D
@@ -36,6 +39,7 @@ command! tar tar -xf %c
 command! targz tar -xzf %c
 command! bk !backup %c
 command! date !dateit %c
+command! time !timeit %c
 command! bkr !backuprename %c
 command! subl !subl %c
 command! cdo :execute 'cd' '%D'
@@ -95,6 +99,9 @@ command! talkmd !talkmd %a
 command! rmsp !remove_space %c
 command! mkproj !mkproj .
 command! texpad !open -a texpad.app %c
+command! vi !vi %a
+" Define a custom command to run a quokka test: "./$1 ../*.in &> log.o &
+command! qk !runqk %c || echo "failed" >> failed.txt
 
 ca tn tabnew
 ca tc tabclose
@@ -103,6 +110,8 @@ ca mc make clean
 ca mk make
 ca mm marked
 ca md mkdir
+
+set sort=+name
 
 "set find=find . -name=$1
 "set findprg="find %s %a -print , -type d \( ! -readable -o ! -executable \) -prune"
@@ -361,11 +370,6 @@ nnoremap ,c :write | edit $MYVIFMRC | restart<cr>
 " The command macros like %f, %F, %d, %D may be used in the commands.
 " The %a macro is ignored.  To use a % you must put %%.
 
-fileviewer *.gif,*.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,*.as[fx]
-    \ ffmpeg -y -hide_banner -loglevel panic -i %c -ss 00:00:05.000 -vframes 1 /tmp/tempfile.jpg > /dev/null && kitty +icat --place %pwx%ph@%pxx%py --silent /tmp/tempfile.jpg
-    \ %pc
-    \ kitty icat --clear --silent %pd
-
 fileviewer *.out
   \ tail -f
 
@@ -400,15 +404,15 @@ if $OS == 'Darwin'
         \ {Mount with CurlFtpFS}
         \ FUSE_MOUNT2|curlftpfs -o ftp_port=-,,disable_eprt %PARAM %DESTINATION_DIR %CLEAR,
 
-    fileviewer {*.jpg,*.jpeg,*.png,*.gif}
-        \ kitten icat --silent --transfer-mode=file --place=%pwx%ph@%pxx%py %c >/dev/tty </dev/tty %N
-        \ %pc
-        \ kitten icat --clear --silent >/dev/tty </dev/tty %N
+    " fileviewer {*.jpg,*.jpeg,*.png,*.gif}
+    "     \ kitten icat --silent --transfer-mode=file --place=%pwx%ph@%pxx%py %c >/dev/tty </dev/tty %N
+    "     \ %pc
+    "     \ kitten icat --clear --silent >/dev/tty </dev/tty %N
 
-    fileviewer *.pdf
-        \ tput cup %py %px > /dev/tty && sips -s format jpeg %c --out /tmp/tempfile.jpg > /dev/null && kitten icat --silent --transfer-mode=file --place=%pwx%ph@%pxx%py /tmp/tempfile.jpg >/dev/tty </dev/tty %N
-        \ %pc
-        \ kitten icat --clear --silent >/dev/tty </dev/tty %N
+    " fileviewer *.pdf
+    "     \ tput cup %py %px > /dev/tty && sips -s format jpeg %c --out /tmp/tempfile.jpg > /dev/null && kitten icat --silent --transfer-mode=file --place=%pwx%ph@%pxx%py /tmp/tempfile.jpg >/dev/tty </dev/tty %N
+    "     \ %pc
+    "     \ kitten icat --clear --silent >/dev/tty </dev/tty %N
 
     " fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm
     "     \ kitty +icat --silent --transfer-mode=stream --place=%pwx%ph@%pxx%py %c %N
@@ -431,6 +435,31 @@ if $OS == 'Darwin'
     "     \ tput cup %py %px > /dev/tty && sips -s format jpeg %c --out /tmp/tempfile.jpg > /dev/null&& kitty +icat --place %pwx%ph@%pxx%py --silent /tmp/tempfile.jpg
     "     \ %pc
     "     \ kitty +icat --clear --silent %pd
+
+    " fileviewer *.gif,*.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,*.as[fx]
+    "     \ ffmpeg -y -hide_banner -loglevel panic -i %c -ss 00:00:05.000 -vframes 1 /tmp/tempfile.jpg > /dev/null && kitty +icat --place %pwx%ph@%pxx%py --silent /tmp/tempfile.jpg
+    "     \ %pc
+    "     \ kitty icat --clear --silent %pd
+
+    " New: for iterm2
+
+    filetype *.log
+        \ open -a Console.app 
+
+    fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm 
+        " \ /usr/local/bin/imgcat --width %pw --height %ph %c:p %pd
+        \ /Users/cche/anaconda3/bin/imgcat --width %pw --height %ph %c:p %pd
+
+    fileviewer *.pdf
+        " \ pdftoppm %c /tmp/abc -png -f 1 > /dev/null && /Users/cche/anaconda3/bin/imgcat --width %pw --height %ph /tmp/abc-1.png %pd
+        " \ convert %c /tmp/abc.jpg > /dev/null && /Users/cche/anaconda3/bin/imgcat --width %pw --height %ph /tmp/abc.jpg %pd
+        \ pdftoppm %c /tmp/abc -jpeg -r 150 -f 1 > /dev/null && /Users/cche/anaconda3/bin/imgcat --width %pw --height %ph /tmp/abc-1.jpg %pd
+
+    " filetype *.pdf
+    "     \ pdftoppm %c /tmp/abc -jpeg -r 300 -f 1 > /dev/null && /Users/cche/anaconda3/bin/imgcat /tmp/abc-1.jpg && read -rk1 "Press any key to continue"
+
+    fileviewer *.o,*.out,*.log
+        \ tail -f
 
     filetype *.sh
         \ sh

@@ -34,9 +34,9 @@ alias sizesort="du -s * | sort -n"
 # alias tree="tree -N"
 alias en="emacsclient -n"
 alias debugf="gfortran -g -ffpe-trap=zero,invalid,overflow,underflow"
-alias icat="kitty +kitten icat"
+#alias icat="kitty +kitten icat"
 alias ca="conda activate"
-alias t="kitty @ set-tab-title"
+#alias t="kitty @ set-tab-title"
 alias enw="emacsclient -nw"	# open a new window on existing server
 
 ### Commands alias
@@ -55,8 +55,8 @@ alias jl="jupyter lab"
 alias jpcv="jupyter nbconvert"
 # alias mpirun='TMPDIR=/var/tmp/mympi mpirun'
 # alias sshupdate="rsync -raz --progress"
-alias kittydiff="kitty +kitten diff"
-alias kittygitdiff="git difftool --no-symlinks --dir-diff"
+#alias kittydiff="kitty +kitten diff"
+#alias kittygitdiff="git difftool --no-symlinks --dir-diff"
 alias my-rsync="rsync -lhrtu"
 alias my-rsync-bar="rsync -lhrtu --info=progress2"
 alias my-rsyncL="rsync -Lhrtu"
@@ -88,9 +88,10 @@ alias add="git add"
 alias pull="ggpull"
 alias push="ggpush"
 alias cmt="git commit"
+alias gitadd="git commit --amend --no-edit"
 
 function rc() {
-  therc="$HOME/rc_local"
+  therc="$HOME/rc"
   if [[ $1 == list ]]; then
       if [[ $# -ge 2 ]]; then
 	  file=$therc/${2}.list
