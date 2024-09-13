@@ -119,11 +119,15 @@ function cht() {
   curl "cht.sh/$1"
 }
 
+function di() {
+  dict "$1" | less
+}
+
 #---------------------------------  nnn ----------------------------------------
 export NNN_USE_EDITOR=1                                 # use the $EDITOR when opening text files
 # export NNN_SSHFS_OPTS="sshfs -o follow_symlinks"      # make sshfs follow symlinks on the remote
-export NNN_COLORS="2567"                                # use a different color for each context
-export NNN_FIFO=~/tmp/nnn.fifo
+#export NNN_COLORS="2567"                                # use a different color for each context
+#export NNN_FIFO=~/tmp/nnn.fifo
 export NNN_PLUG='p:preview-tui'
 n ()
 {

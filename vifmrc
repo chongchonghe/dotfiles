@@ -373,6 +373,9 @@ nnoremap ,c :write | edit $MYVIFMRC | restart<cr>
 fileviewer *.out
   \ tail -f
 
+filetype *.out
+    \ tail -f
+
 " ------------------------------------------------------------------------------
 " System-specific configurations
 " ------------------------------------------------------------------------------
@@ -491,8 +494,6 @@ elseif $OS == 'Linux'
     filetype *.bmp,*.jpg,*.jpeg,*.png,*.xpm
       " \ !!echo %c && kitty +kitten icat %c
         \ xdg-open
-    filetype *.out
-        \ tail -f
     fileviewer *.out
         \ tail -f
     filetype * xdg-open
