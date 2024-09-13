@@ -369,6 +369,9 @@ fileviewer *.gif,*.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,*.
 fileviewer *.out
   \ tail -f
 
+filetype *.out
+    \ tail -f
+
 " ------------------------------------------------------------------------------
 " System-specific configurations
 " ------------------------------------------------------------------------------
@@ -462,8 +465,6 @@ elseif $OS == 'Linux'
     filetype *.bmp,*.jpg,*.jpeg,*.png,*.xpm
       " \ !!echo %c && kitty +kitten icat %c
         \ xdg-open
-    filetype *.out
-        \ tail -f
     fileviewer *.out
         \ tail -f
     filetype * xdg-open
