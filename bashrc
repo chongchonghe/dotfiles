@@ -90,22 +90,6 @@ alias push="ggpush"
 alias cmt="git commit"
 alias gitadd="git commit --amend --no-edit"
 
-function rc() {
-  therc="$HOME/rc"
-  if [[ $1 == list ]]; then
-      if [[ $# -ge 2 ]]; then
-	  file=$therc/${2}.list
-	  if [[ -e $file ]]; then
-	      zsh $file
-	  fi
-      else
-	  (cd $therc ; ls *.rc)
-      fi
-  else
-      source $therc/${1}.rc
-  fi
-}
-
 ### github
 function gitinit() {
   git init
